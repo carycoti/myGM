@@ -4,7 +4,7 @@
 // @description Alibaba图片银行获取图片链接和名称
 // @author       Kung
 // @include     *://photobank.alibaba.com/*
-// @version     1.2.0
+// @version     1.2.1
 // @grant GM_setClipboard
 // @grant GM_notification
 // ==/UserScript==
