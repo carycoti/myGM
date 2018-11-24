@@ -5,10 +5,11 @@
 // @author      Kung
 // @include     https://www.dianxiaomi.com/ebayMessage/*
 // @include     https://*.dianxiaomi.com/ebayMessage/*
-// @version     1.0.1
+// @version     1.1.0
 // @grant       none
 // ==/UserScript==
-var sku = {
+
+const sku = {
 "232451298367":"50xC6-2-G",
 "332346766264":"50xC6-21-G",
 "232451362994":"50x6pinTB-G",
@@ -2828,7 +2829,7 @@ var sku = {
 "162674717110":"10xK1017-B",
 "162744460088":"2xFS-12V250W",
 "162744461190":"2xFS-12V20W",
-}
+};
 
 
 $(function(){
@@ -2838,30 +2839,30 @@ setTimeout(function(){
 setsku()
 
 } ,1000)//隔1秒之后执行.
-})
+});
 
 
 $(function(){
 	
 setTimeout(function(){
 	
-var buttons = document.querySelectorAll("button,ul");
-for (i = 0; i < buttons.length; i++){
+let buttons = document.querySelectorAll("button,ul");
+for (let i = 0; i < buttons.length; i++){
 buttons[i].addEventListener("click", function(){setTimeout(function(){setsku()},1000)}, false); 
 
 }
 },1000)//隔1秒之后执行.
-})
+});
 
 
 function setsku(){
-	var key;
-	var all_a = document.querySelectorAll("a,span");
-	for (var i = 0; i< all_a.length; i++){
-		str1 = all_a[i].textContent;
+	let key;
+	let all_a = document.querySelectorAll("a,span");
+	for (let i = 0; i< all_a.length; i++){
+		let str1 = all_a[i].textContent;
 		for (key in sku){
 		if (str1.indexOf(key)>=0){
-			var this_sku = document.createElement("li");
+			let this_sku = document.createElement("li");
 			this_sku.textContent = sku[key];
 			all_a[i].parentNode.insertBefore(this_sku, all_a[i].nextSibling);
 			}

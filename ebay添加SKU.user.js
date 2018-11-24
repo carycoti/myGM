@@ -5,10 +5,10 @@
 // @author      Kung
 // @include     https://*.ebay.com/itm/*
 // @include     https://*.ebay.com.hk/itm/*
-// @version     1.1.0
+// @version     1.1.1
 // @grant       none
 // ==/UserScript==
-var sku = {
+const sku = {
 "232451298367":"50xC6-2-G",
 "332346766264":"50xC6-21-G",
 "232451362994":"50x6pinTB-G",
@@ -2839,14 +2839,14 @@ setsku();
 });
 
 function setsku(){
-	var key;
-    var all_h1 = document.querySelectorAll("h1");
-	var all_a = document.querySelectorAll("#descItemNumber");
-	for (var i = 0; i< all_a.length; i++){
-		str1 = all_a[i].textContent;
+	let key;
+    let all_h1 = document.querySelectorAll("h1");
+	let all_a = document.querySelectorAll("#descItemNumber");
+	for (let i = 0; i< all_a.length; i++){
+		let str1 = all_a[i].textContent;
 		for (key in sku){
 		if (str1.indexOf(key)>=0){
-			var this_sku = document.createElement("h4");
+			let this_sku = document.createElement("h4");
 			this_sku.textContent = sku[key];
 			all_h1[0].parentNode.insertBefore(this_sku, all_h1[0].nextSibling);
 			}
