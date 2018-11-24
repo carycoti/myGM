@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name        议价添加SKU
-// @namespace   www.dianxiaomi.com
+// @namespace   https://github.com/carycoti/myGM
 // @description 议价添加SKU
-// @author       Kung
+// @author      Kung
 // @include     https://www.dianxiaomi.com/ebayMessage/*
 // @include     https://*.dianxiaomi.com/ebayMessage/*
 // @version     1.0.1

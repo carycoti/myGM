@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         Alibaba图片银行
-// @namespace   www.alibaba.com
+// @name        Alibaba图片银行
+// @namespace   https://github.com/carycoti/myGM
 // @description Alibaba图片银行获取图片链接和名称
-// @author       Kung
+// @author      Kung
 // @include     *://photobank.alibaba.com/*
 // @version     1.3.0
 // @grant GM_setClipboard

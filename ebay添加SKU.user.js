@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name        ebay添加SKU
-// @namespace   www.ebay.com
+// @namespace   https://github.com/carycoti/myGM
 // @description ebay添加SKU
-// @author       Kung
+// @author      Kung
 // @include     https://*.ebay.com/itm/*
 // @include     https://*.ebay.com.hk/itm/*
 // @version     1.1.0
