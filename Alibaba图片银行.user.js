@@ -4,7 +4,7 @@
 // @description Alibaba图片银行获取图片链接和名称
 // @author      Kung
 // @include     *://photobank.alibaba.com/*
-// @version     1.3.1
+// @version     1.3.2
 // @grant GM_setClipboard
 // @grant GM_notification
 // ==/UserScript==
@@ -39,9 +39,9 @@ function buttonnext(){
 
 function get_image(){
     let result = [];
-    let alldiv = document.querySelectorAll("div.default-preview-item");
-    for (let i = 0; i < alldiv.length; i++) {
-        let thisElement = alldiv[i];
+    let all_div = document.querySelectorAll("div.default-preview-item");
+    for (let i = 0; i < all_div.length; i++) {
+        let thisElement = all_div[i];
         let thisImg = thisElement.querySelectorAll("img");
         let thisSKU = thisElement.querySelectorAll("div.default-preview-name");
         if (thisImg.length){
