@@ -56,8 +56,8 @@ function get_image(){
     }
     let rst = result.join("\n");
     let this_sku = document.createElement("textarea");
-    if (alldiv.length < 10){
-        this_sku.rows = alldiv.length;
+    if (all_div.length < 10){
+        this_sku.rows = all_div.length;
     } else {
         this_sku.rows = 10;
     }
