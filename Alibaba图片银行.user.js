@@ -70,4 +70,10 @@ function get_image(){
     GM_notification("SKU & 图片链接地址已复制到剪切板中~");
 }
 
-console.log(window.setTimeout(function(){get_image(); buttonpre(); buttonnext();}, 1500));
+function main(){
+    get_image();
+    buttonpre();
+    buttonnext();
+}
+
+console.log(window.setTimeout(function(){main();}, 1500));
