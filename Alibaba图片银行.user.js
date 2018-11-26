@@ -39,13 +39,13 @@ function buttonnext(){
 
 function get_image(){
     let result = [];
-    let all_div = document.querySelectorAll("div.default-preview-box");
+    let all_div = document.querySelectorAll("div.default-preview-item");
     for (let i = 0; i < all_div.length; i++) {
         let thisElement = all_div[i];
         let thisImg = thisElement.querySelectorAll("img");
         let thisSKU = thisElement.querySelectorAll("div.default-preview-name");
         if (thisImg.length){
-            let SKU = thisSKU[0].innerText.Trim();
+            let SKU = thisSKU[0].textContent.Trim();
             let img_url = thisImg[0].src.replace("_350x350.jpg", "").replace("_350x350.png", "");
             let str = [];
                 str.push(SKU);
