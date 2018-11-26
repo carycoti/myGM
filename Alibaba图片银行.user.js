@@ -4,7 +4,7 @@
 // @description Alibaba图片银行获取图片链接和名称
 // @author      Kung
 // @include     *://photobank.alibaba.com/*
-// @version     1.3.3
+// @version     1.3.4
 // @grant GM_setClipboard
 // @grant GM_notification
 // ==/UserScript==
@@ -70,4 +70,4 @@ function get_image(){
     GM_notification("SKU & 图片链接地址已复制到剪切板中~");
 }
 
-window.setTimeout(function(){ get_image(); buttonpre(); buttonnext(); }, 1500);
+window.setTimeout(function(){ console.log(get_image()); console.log(buttonpre()); console.log(buttonnext()); }, 1500);
