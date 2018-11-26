@@ -45,7 +45,7 @@ function get_image(){
         let thisImg = thisElement.querySelectorAll("img");
         let thisSKU = thisElement.querySelectorAll("div.default-preview-name");
         if (thisImg.length){
-            let SKU = thisSKU[0].text.Trim();
+            let SKU = thisSKU[0].innerText.Trim();
             let img_url = thisImg[0].src.replace("_350x350.jpg", "").replace("_350x350.png", "");
             let str = [];
                 str.push(SKU);
