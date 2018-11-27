@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         非凡掌柜自动日期
 // @namespace    https://github.com/carycoti/myGM
-// @version      1.3.0
+// @version      1.3.1
 // @description  非凡掌柜自动填写开始和结束日期，默认7天
 // @author       Kung
 // @match        *://shop.zhuofannuo.com/discountMod*
