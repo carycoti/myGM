@@ -1,12 +1,14 @@
 // ==UserScript==
 // @name         非凡掌柜自动日期
 // @namespace    https://github.com/carycoti/myGM
-// @version      1.3.1
+// @version      1.3.2
 // @description  非凡掌柜自动填写开始和结束日期，默认7天
 // @author       Kung
 // @match        *://shop.zhuofannuo.com/discountMod*
 // @grant        none
 // ==/UserScript==
+
+const log = console.log.bind(console);
 
 function fun_date(aa, sep="-"){
         let date = new Date();
@@ -22,9 +24,13 @@ if(value.toString().length<2){
 return value;
 }
 
-const start = fun_date(0) + " 22:00:00";
-const start_date = document.getElementById("startTime");
-start_date.value = start;
-const end = fun_date(7) + " 22:00:00";
-const end_date = document.getElementById("endTime");
-end_date.value = end;
+function main() {
+    let start = fun_date(0) + " 22:00:00";
+    let start_date = document.getElementById("startTime");
+    start_date.value = start;
+    let end = fun_date(7) + " 22:00:00";
+    let end_date = document.getElementById("endTime");
+    end_date.value = end;
+}
+
+log(window.setTimeout(function () {main();}, 1500));
