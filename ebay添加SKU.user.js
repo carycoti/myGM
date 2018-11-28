@@ -5,7 +5,7 @@
 // @author      Kung
 // @include     https://*.ebay.com/itm/*
 // @include     https://*.ebay.com.hk/itm/*
-// @version     1.1.1
+// @version     1.2.0
 // @grant       none
 // ==/UserScript==
 const sku = {
@@ -2829,14 +2829,7 @@ const sku = {
 "162744460088":"2xFS-12V250W",
 "162744461190":"2xFS-12V20W",
 };
-
-
-$(function(){
-setTimeout(function(){
-//在这里执行油猴脚本......
-setsku();
-} ,1000);//隔1秒之后执行.
-});
+const log = console.log.bind(console);
 
 function setsku(){
 	let key;
@@ -2853,3 +2846,5 @@ function setsku(){
 		}
 	}
 }
+
+log(window.setTimeout(function () {setsku();}, 100));

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         非凡掌柜自动日期
 // @namespace    https://github.com/carycoti/myGM
-// @version      1.3.2
+// @version      1.3.3
 // @description  非凡掌柜自动填写开始和结束日期，默认7天
 // @author       Kung
 // @match        *://shop.zhuofannuo.com/discountMod*
@@ -33,4 +33,4 @@ function main() {
     end_date.value = end;
 }
 
-log(window.setTimeout(function () {main();}, 1500));
+log(window.setTimeout(function () {main();}, 100));

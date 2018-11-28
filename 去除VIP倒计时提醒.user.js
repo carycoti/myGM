@@ -6,11 +6,17 @@
 // @include     https://www.dianxiaomi.com/*
 // @include     https://dianxiaomi.com/*
 // @include     https://*.dianxiaomi.com/*
-// @version     1.0.1
+// @version     1.1.0
 // @grant       none
 // ==/UserScript==
 
-const adSidebar = document.getElementById('expireVipShowModal');
-if (adSidebar) {
-	adSidebar.parentNode.removeChild(adSidebar);
+const log = console.log.bind(console);
+
+function main() {
+	const adSidebar = document.getElementById('expireVipShowModal');
+	if (adSidebar) {
+		adSidebar.parentNode.removeChild(adSidebar);
+	}
 }
+
+log(window.setTimeout(function () {main();}, 1000));

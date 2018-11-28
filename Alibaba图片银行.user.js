@@ -4,10 +4,12 @@
 // @description Alibaba图片银行获取图片链接和名称
 // @author      Kung
 // @include     *://photobank.alibaba.com/*
-// @version     1.3.8
+// @version     1.4.0
 // @grant GM_setClipboard
 // @grant GM_notification
 // ==/UserScript==
+
+const log = console.log.bind(console);
 
 function buttonpre(){
 	let ButtonPre = document.createElement('a');
@@ -76,4 +78,4 @@ function main(){
     buttonnext();
 }
 
-console.log(window.setTimeout(function(){main();}, 1500));
+log(window.setTimeout(function(){main();}, 1500));
