@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Github Trending
 // @namespace    http://tampermonkey.net/
-// @version      1.0.1
+// @version      1.1.0
 // @description  添加Trending链接到Github首页
 // @author       Kung
 // @match        *://github.com/*
@@ -25,4 +25,4 @@ function main(){
     last_li.parentNode.insertBefore(my_trending, last_li.nextSibling);
 }
 
-log(window.setTimeout(function(){main();}, 1500));
+log(window.setTimeout(function(){main();}, 100));
