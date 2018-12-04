@@ -39,29 +39,31 @@ function dom(tag, attr, inner) {
     return el;
 }
 
-function create_ahref(url) {
+function get_status(url) {
     let id = get_book_id(url);
     if (id) {
-    let rf_url = 'http://readfree.me/book/' + id;
-    GM_xmlhttpRequest({
-    method: "HEAD",
-    url: rf_url,
-    onload: function(response) {
-        if (response.status === 200) {
-            let panel = dom('div', { id : 'readfree-link' });
-            let ahref = dom('a', { href : rf_url, target : '_blank' }, 'ReadFree!');
-            panel.appendChild(ahref);
-            add_readfree_style();
-            return panel;
-        }
+        let rf_url = 'http://readfree.me/book/' + id;
+        GM_xmlhttpRequest({
+            method: "HEAD",
+            url: rf_url,
+            onload: function (response) {
+                return response.status;
+            }
+        })
     }
-})
-}
 }
 
-function rf_book_info() {
+function rf_book_body() {
     let path = document.location.pathname;
-    document.body.appendChild(create_ahref());
+    log(path);
+    let status = get_status(path);
+    if (status === 200) {
+        let panel = dom('div', { id : 'readfree-link' });
+        let ahref = dom('a', { href : rf_url, target : '_blank' }, 'ReadFree!');
+        panel.appendChild(ahref);
+        document.body.appendChild(panel);
+        add_readfree_style();
+    }
 }
 
 function all_book() {
@@ -69,21 +71,20 @@ function all_book() {
     for (let i = 0; i < my_a.length; i++) {
         let this_a = my_a[i];
         if (this_a.href.indexOf("subject")){
-            let my_href = create_ahref(this_a.href);
-            this_a.parentNode.insertBefore(my_href, this_a.nextSibling);
+            let status = get_status(this_a.href);
+            if (status === 200) {
+                let panel = dom('div', { id : 'readfree-link' });
+                let ahref = dom('a', { href : rf_url, target : '_blank' }, 'ReadFree!');
+                panel.appendChild(ahref);
+                this_a.parentNode.insertBefore(panel, this_a.nextSibling);
+            }
         }
     }
 }
+
 function main(){
-    rf_book_info();
-    all_book()
+    rf_book_body();
+    all_book();
 }
 
 log(window.setTimeout(function(){main();}, 0));
-
-
-
-
-
-
-;
