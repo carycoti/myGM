@@ -33,7 +33,7 @@ function your_stars() {
 }
 
 function gist_url() {
-    create_tag("my-gist-url", "Gist", "https://gist.github.com/carycoti");
+    create_tag("my-gist-url", "YourGist", "https://gist.github.com/carycoti");
 }
 
 function your_github() {
