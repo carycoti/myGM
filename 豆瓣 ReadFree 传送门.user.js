@@ -15,7 +15,7 @@
 const log = console.log.bind(console);
 
 function get_book_id(url) {
-    let re = /\/subject\/(\d+?)/g;
+    let re = /\/subject\/(\d+)/g;
     let matches = re.exec(url);
     if (matches && matches.length > 1) {
         return parseInt(matches[1]);
@@ -60,25 +60,34 @@ function rf_book_body() {
     }
 }
 
-// function all_book() {
-//     let my_a = document.querySelectorAll("a");
-//     for (let i = 0; i < my_a.length; i++) {
-//         let this_a = my_a[i];
-//         if (this_a.href.indexOf("subject")){
-//             let status = get_status(this_a.href);
-//             if (status === 200) {
-//                 let panel = dom('div', { id : 'readfree-link' });
-//                 let ahref = dom('a', { href : rf_url, target : '_blank' }, 'ReadFree!');
-//                 panel.appendChild(ahref);
-//                 this_a.parentNode.insertBefore(panel, this_a.nextSibling);
-//             }
-//         }
-//     }
-// }
+function all_book() {
+    let my_a = document.querySelectorAll("a");
+    for (let i = 0; i < my_a.length; i++) {
+        let this_a = my_a[i];
+        if (this_a.href.indexOf("subject")) {
+            let id = get_book_id(this_a.href);
+            if (id) {
+                let rf_url = 'http://readfree.me/book/' + id;
+                GM_xmlhttpRequest({
+                    method: "HEAD",
+                    url: rf_url,
+                    onload: function (response) {
+                        if (response.status === 200) {
+                            let panel = dom('div', {id: 'readfree-link'});
+                            let ahref = dom('a', {href: rf_url, target: '_blank'}, 'ReadFree!');
+                            panel.appendChild(ahref);
+                            this_a.parentNode.insertBefore(panel, this_a.nextSibling);
+                        }
+                    }
+                })
+            }
+        }
+    }
+}
 
 function main(){
     rf_book_body();
-    // all_book();
+    all_book();
 }
 
 log(window.setTimeout(function(){main();}, 0));
