@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Github Trending
 // @namespace    http://tampermonkey.net/
-// @version      1.4.0
+// @version      1.5.0
 // @description  添加Trending链接到Github首页
 // @author       Kung
 // @match        *://github.com/*
@@ -29,15 +29,15 @@ function my_trending(){
 }
 
 function your_stars() {
-    create_tag("your-stars-url", "Your Stars", "https://github.com/carycoti?tab=stars");
+    create_tag("your-stars-url", "YourStars", "https://github.com/carycoti?tab=stars");
 }
 
 function gist_url() {
-    create_tag("my-gist-url", "Your Gist", "https://gist.github.com/carycoti");
+    create_tag("my-gist-url", "Gist", "https://gist.github.com/carycoti");
 }
 
 function your_github() {
-    create_tag("my-git-hub", "Your Github", "https://github.com/carycoti");
+    create_tag("my-git-hub", "YourGithub", "https://github.com/carycoti");
 }
 function main(){
     my_trending();
