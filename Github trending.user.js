@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         Github Trending
+// @name         Github添加站内实用链接
 // @namespace    http://tampermonkey.net/
-// @version      1.5.0
-// @description  添加Trending链接到Github首页
+// @version      2.0.0
+// @description  添加站内实用链接到Github首页
 // @author       Kung
 // @match        *://github.com/*
 // @match        *://gist.github.com/*
@@ -33,7 +33,7 @@ function your_stars() {
 }
 
 function gist_url() {
-    create_tag("my-gist-url", "YourGist", "https://gist.github.com/carycoti");
+    create_tag("my-gist-url", "Gist", "https://gist.github.com/carycoti");
 }
 
 function your_github() {
