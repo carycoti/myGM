@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Github Trending
 // @namespace    http://tampermonkey.net/
-// @version      1.1.0
+// @version      1.2.0
 // @description  添加Trending链接到Github首页
 // @author       Kung
 // @match        *://github.com/*
@@ -11,18 +11,29 @@
 
 const log = console.log.bind(console);
 
-function main(){
+function create_tag(id, text, href){
     let my_ul = document.querySelectorAll("ul.list-style-none")[0];
     let my_trending = document.createElement("li");
     let my_a = document.createElement("a");
-    my_a.href = "/trending/python?since=daily";
-    my_a.id = "my-trending-url";
+    my_a.href = href;
+    my_a.id = id;
     my_a.className = "js-selected-navigation-item HeaderNavlink px-lg-2 py-2 py-lg-0";
-    my_a.textContent = "Trending";
+    my_a.textContent = text;
     my_trending.appendChild(my_a);
-    let my_li = my_ul.querySelectorAll("li");
-    let last_li = my_li[my_li.length - 1];
-    last_li.parentNode.insertBefore(my_trending, last_li.nextSibling);
+    my_ul.appendChild(my_trending);
+}
+
+function my_trending(){
+    create_tag("my-trending-url", "Trending", "/trending/python?since=daily")
+}
+
+function your_stars() {
+    create_tag("your-stars-url", "Your Stars", "/carycoti?tab=stars")
+}
+
+function main(){
+    my_trending();
+    your_stars();
 }
 
 log(window.setTimeout(function(){main();}, 100));
