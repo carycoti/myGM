@@ -13,9 +13,11 @@
 // ==/UserScript==
 
 const log = console.log.bind(console);
+GM_addStyle('.sel_btn{height: 21px;line-height: 21px;padding: 0 11px;background: -webkit-linear-gradient(top, rgba(50, 74, 105, 0.8), rgba(50, 74, 105, 1));background:   -mozc-linear-gradient(top, rgba(50, 74, 105, 0.8), rgba(50, 74, 105, 1));background:         linear-gradient(to bottom, rgba(50, 74, 105, 0.8), rgba(50, 74, 105, 1));display: inline-block;text-decoration: none;font-size: 12px;outline: none;}');
+GM_addStyle('a.sel_btn{color: white;}');
 
 function get_book_id(url) {
-    let re = /\/subject\/(\d+)/g;
+    let re = /\/subject\/(\d+)(\/?$|\/.icn=(index-topchart-subject|index-book250-subject|index-editionrecommend)$)/g;
     let matches = re.exec(url);
     if (matches && matches.length > 1) {
         return parseInt(matches[1]);
@@ -64,20 +66,22 @@ function all_book() {
     let my_a = document.querySelectorAll("a");
     for (let i = 0; i < my_a.length; i++) {
         let this_a = my_a[i];
-        if (this_a.href.indexOf("subject")) {
-            let id = get_book_id(this_a.href);
-            if (id) {
-                let rf_url = 'http://readfree.me/book/' + id;
-                GM_xmlhttpRequest({
-                    method: "HEAD",
-                    url: rf_url,
-                    onload: function (response) {
-                        if (response.status === 200) {
-                            let ahref = dom('button', {href: rf_url, target: '_blank'}, 'ReadFree!');
-                            this_a.parentNode.insertBefore(ahref, this_a.nextSibling);
+        if (this_a.parentNode.nodeName !== "DT"){
+            if (this_a.href.indexOf("subject")) {
+                let id = get_book_id(this_a.href);
+                if (id) {
+                    let rf_url = 'http://readfree.me/book/' + id;
+                    GM_xmlhttpRequest({
+                        method: "HEAD",
+                        url: rf_url,
+                        onload: function (response) {
+                            if (response.status === 200) {
+                                let ahref = dom('a', {class: 'sel_btn', href: rf_url, target: '_blank'}, 'ReadFree!');
+                                this_a.parentNode.insertBefore(ahref, this_a.nextSibling);
+                            }
                         }
-                    }
-                })
+                    })
+                }
             }
         }
     }
