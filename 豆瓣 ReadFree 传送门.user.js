@@ -73,10 +73,8 @@ function all_book() {
                     url: rf_url,
                     onload: function (response) {
                         if (response.status === 200) {
-                            let panel = dom('div', {id: 'readfree-link'});
-                            let ahref = dom('a', {href: rf_url, target: '_blank'}, 'ReadFree!');
-                            panel.appendChild(ahref);
-                            this_a.parentNode.insertBefore(panel, this_a.nextSibling);
+                            let ahref = dom('button', {href: rf_url, target: '_blank'}, 'ReadFree!');
+                            this_a.parentNode.insertBefore(ahref, this_a.nextSibling);
                         }
                     }
                 })
