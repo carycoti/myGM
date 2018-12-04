@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         Github Trending
 // @namespace    http://tampermonkey.net/
-// @version      1.3.0
+// @version      1.4.0
 // @description  添加Trending链接到Github首页
 // @author       Kung
 // @match        *://github.com/*
+// @match        *://gist.github.com/*
 // @grant GM_setClipboard
 // @grant GM_notification
 // ==/UserScript==
@@ -24,21 +25,25 @@ function create_tag(id, text, href){
 }
 
 function my_trending(){
-    create_tag("my-trending-url", "Trending", "/trending/python?since=daily");
+    create_tag("my-trending-url", "Trending", "https://github.com/trending/python?since=daily");
 }
 
 function your_stars() {
-    create_tag("your-stars-url", "Your Stars", "/carycoti?tab=stars");
+    create_tag("your-stars-url", "Your Stars", "https://github.com/carycoti?tab=stars");
 }
 
 function gist_url() {
     create_tag("my-gist-url", "Your Gist", "https://gist.github.com/carycoti");
 }
 
+function your_github() {
+    create_tag("my-git-hub", "Your Github", "https://github.com/carycoti");
+}
 function main(){
     my_trending();
     your_stars();
     gist_url();
+    your_github();
 }
 
 log(window.setTimeout(function(){main();}, 100));
