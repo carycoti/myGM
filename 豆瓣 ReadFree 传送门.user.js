@@ -64,11 +64,22 @@ function rf_book_info() {
     document.body.appendChild(create_ahref());
 }
 
+function all_book() {
+    let my_a = document.querySelectorAll("a");
+    for (let i = 0; i < my_a.length; i++) {
+        let this_a = my_a[i];
+        if (this_a.href.indexOf("subject")){
+            let my_href = create_ahref(this_a.href);
+            this_a.parentNode.insertBefore(my_href, this_a.nextSibling);
+        }
+    }
+}
 function main(){
     rf_book_info();
+    all_book()
 }
 
-log(window.setTimeout(function(){main();}, 100));
+log(window.setTimeout(function(){main();}, 0));
 
 
 
