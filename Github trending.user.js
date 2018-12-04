@@ -1,13 +1,11 @@
 // ==UserScript==
 // @name         Github添加站内实用链接
 // @namespace    http://tampermonkey.net/
-// @version      2.0.0
+// @version      2.0.1
 // @description  添加站内实用链接到Github首页
 // @author       Kung
 // @match        *://github.com/*
 // @match        *://gist.github.com/*
-// @grant GM_setClipboard
-// @grant GM_notification
 // ==/UserScript==
 
 const log = console.log.bind(console);
@@ -46,4 +44,4 @@ function main(){
     your_github();
 }
 
-log(window.setTimeout(function(){main();}, 100));
+log(window.setTimeout(function(){main();}, 0));
