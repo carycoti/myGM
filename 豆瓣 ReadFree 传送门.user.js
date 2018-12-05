@@ -61,7 +61,7 @@ function create_ahref(url) {
 
 function rf_book_info() {
     let path = document.location.pathname;
-    document.body.appendChild(create_ahref());
+    document.body.appendChild(create_ahref(path));
 }
 
 function all_book() {
@@ -80,10 +80,3 @@ function main(){
 }
 
 log(window.setTimeout(function(){main();}, 0));
-
-
-
-
-
-
-;
