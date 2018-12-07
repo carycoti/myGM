@@ -33,13 +33,13 @@ function add_history_orders() {
     let this_div = this_table.querySelector("tr td div");
     let customer = this_div.querySelector("a").textContent;
     let order_url = 'https://www.dianxiaomi.com/package/searchPackage.htm?pageNo=0&pageSize=100&state=shipped&shopId=-1&history=&searchType=buyerAccount&content=' + customer + '&isVoided=0&isRemoved=0&commitPlatform=success&platform=&isGreen=0&isYellow=0&isOrange=0&isRed=0&isViolet=0&isBlue=0&cornflowerBlue=0&pink=0&teal=0&turquoise=0&isSearch=0&isFree=-1&isBatch=-1&isOversea=-1&orderField=shipped_time';
-    let my_a = dom('a', {id: 'add_history_orders', href: order_url}, '历史订单');
+    let my_a = dom('a', {id: 'add_history_orders', href: order_url, target: '_blank'}, '    历史订单>');
     this_div.appendChild(my_a);
 }
 
 function main() {
     checked();
-    add_history_orders(;
+    add_history_orders();
 }
 
 log(window.setTimeout(function () {main();}, 0));
