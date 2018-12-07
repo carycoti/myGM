@@ -2857,7 +2857,7 @@ buttons[i].addEventListener("click", function(){setTimeout(function(){setsku()},
 
 function setsku(){
 	let key;
-	let all_a = document.querySelectorAll("a,span");
+	let all_a = document.querySelectorAll("a");
 	for (let i = 0; i< all_a.length; i++){
 		let str1 = all_a[i].textContent;
 		for (key in sku){
