@@ -10,9 +10,33 @@
 
 const log = console.log.bind(console);
 
+function dom(tag, attr, inner) {
+    let el = document.createElement(tag);
+    for (let key in attr) {
+        if (attr.hasOwnProperty(key)) {
+            el.setAttribute(key,attr[key]);
+        }
+    }
+    if (inner) {
+        el.innerHTML = inner;
+    }
+    return el;
+}
+
 function checked() {
     let this_input = document.getElementById('nextMsg');
     this_input.checked = "checked";
 }
 
-log(window.setTimeout(function () {checked();}, 100));
+function add_history_orders() {
+    let this_table = document.querySelector(".tableIn")
+    let customer = this_table.querySelector("tr td div a").textContent
+    log(customer)
+}
+
+function main() {
+    checked()
+    add_history_orders()
+}
+
+log(window.setTimeout(function () {main();}, 0));
