@@ -5,7 +5,7 @@
 // @description  店小秘自动勾选nextMsg：提交发送后，自动打开下一封消息
 // @author       Kung
 // @match        *://www.dianxiaomi.com/ebayMessage/*
-// @grant        none
+// @grant       GM_xmlhttpRequest
 // ==/UserScript==
 
 const log = console.log.bind(console);
@@ -29,14 +29,21 @@ function checked() {
 }
 
 function add_history_orders() {
-    let this_table = document.querySelector(".tableIn")
-    let customer = this_table.querySelector("tr td div a").textContent
-    log(customer)
+    let this_table = document.querySelector(".tableIn");
+    let customer = this_table.querySelector("tr td div a").textContent;
+    let order_url = 'https://www.dianxiaomi.com/package/searchPackage.htm?pageNo=0&pageSize=100&state=shipped&shopId=-1&history=&searchType=buyerAccount&content=' + customer + '&isVoided=0&isRemoved=0&commitPlatform=success&platform=&isGreen=0&isYellow=0&isOrange=0&isRed=0&isViolet=0&isBlue=0&cornflowerBlue=0&pink=0&teal=0&turquoise=0&isSearch=0&isFree=-1&isBatch=-1&isOversea=-1&orderField=shipped_time';
+    GM_xmlhttpRequest({
+        method: "HEAD",
+        url: order_url,
+        onload: function (response) {
+            log(response.responseText)
+        }
+    });
 }
 
 function main() {
-    checked()
-    add_history_orders()
+    checked();
+    add_history_orders(;
 }
 
 log(window.setTimeout(function () {main();}, 0));
