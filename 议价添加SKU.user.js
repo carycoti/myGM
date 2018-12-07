@@ -5,7 +5,7 @@
 // @author      Kung
 // @include     https://www.dianxiaomi.com/ebayMessage/*
 // @include     https://*.dianxiaomi.com/ebayMessage/*
-// @version     1.1.0
+// @version     1.1.1
 // @grant       none
 // ==/UserScript==
 
