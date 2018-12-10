@@ -12,8 +12,7 @@
 const log = console.log.bind(console);
 
 function main() {
-    let this_td = document.querySelectorAll('tr td')
-    let this_div = this_td.querySelectorAll('div[style="display:inline-block;"]')
+    let this_div = document.querySelectorAll('tr td div[style="display:inline-block;"]');
     log(this_div)
 }
 
