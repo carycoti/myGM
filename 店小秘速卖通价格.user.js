@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         店小秘速卖通价格
 // @namespace    http://tampermonkey.net/
-// @version      1.0.2
+// @version      1.1.0
 // @description  店小秘速卖通产品的价格
 // @author       Kung
 // @match        *://www.dianxiaomi.com/smtProduct/batchEdit.htm
@@ -15,10 +15,18 @@ function main() {
     let result = [];
     for (let i = 0; i < num; i++) {
         let sku = this_div[6 + 12 * i].querySelector('input').value;
+        let title = this_div[12 * i].querySelector('textarea').textContent;
+        let group = this_div[1 + 12 * i].querySelector('a[@name="real"]').textContent.trim();
+        let qty = this_div[2 + 12 * i].querySelector('a[@name="real"]').textContent.trim();
         let price = this_div[3 + 12 * i].querySelector('input').value;
+        let weight = this_div[8 + 12 * i].querySelector('input').value;
         let str = [];
         str.push(sku);
+        str.push(title);
+        str.push(group);
+        str.push(qty);
         str.push(price);
+        str.push(weight);
         let str1 = str.join("\t");
         result.push(str1);
     }
