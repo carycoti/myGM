@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         店小秘速卖通价格
 // @namespace    http://tampermonkey.net/
-// @version      1.1.1
+// @version      1.1.2
 // @description  店小秘速卖通产品的价格
 // @author       Kung
 // @match        *://www.dianxiaomi.com/smtProduct/batchEdit.htm
@@ -10,7 +10,6 @@
 // ==/UserScript==
 
 function main() {
-    let re = /.+(\d+).+?/g;
     let this_div = document.querySelectorAll('div.typeDiv');
     let num = this_div.length / 12;
     let result = [];
@@ -19,6 +18,7 @@ function main() {
         let title = this_div[12 * i].querySelector('textarea').textContent;
         let group = this_div[1 + 12 * i].querySelector('a[name=real]').textContent.trim();
         let qty = this_div[2 + 12 * i].querySelector('a[name=real]').textContent.trim();
+        let re = /\D*(\d+)\D*/g;
         let matches = re.exec(qty);
         if (matches && matches.length > 1) {
             qty = parseInt(matches[1]);
