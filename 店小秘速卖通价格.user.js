@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         店小秘速卖通价格
 // @namespace    http://tampermonkey.net/
-// @version      1.0.1
+// @version      1.0.2
 // @description  店小秘速卖通产品的价格
 // @author       Kung
 // @match        *://www.dianxiaomi.com/smtProduct/batchEdit.htm
@@ -26,3 +26,5 @@ function main() {
     GM_setClipboard(rst);
     GM_notification("SKU & 价格已复制到剪切板中~");
 }
+
+window.setTimeout(function(){main();}, 1000);
