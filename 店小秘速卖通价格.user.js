@@ -19,7 +19,7 @@ function main() {
         let title = this_div[12 * i].querySelector('textarea').textContent;
         let group = this_div[1 + 12 * i].querySelector('a[name=real]').textContent.trim();
         let qty = this_div[2 + 12 * i].querySelector('a[name=real]').textContent.trim();
-        matches = re.exec(qty);
+        let matches = re.exec(qty);
         if (matches && matches.length > 1) {
             qty = parseInt(matches[1]);
         }
