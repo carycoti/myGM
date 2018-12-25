@@ -11,12 +11,28 @@
 
 const log = console.log.bind(console);
 
+function replace_dom(replace, dom) {
+    dom.parentNode.replaceChild(replace, dom);
+}
+
 function main(){
-    let detailVideo = document.getElementById("struct-detailVideo");
-    let imageVideo = document.getElementById("struct-imageVideo");
     let div = document.createElement("div");
-    imageVideo.parentNode.replaceChild(div, imageVideo);
-    detailVideo.parentNode.replaceChild(div, detailVideo);
+    let salePropInfo = document.getElementById("struct-salePropInfo");
+    replace_dom(div, salePropInfo);
+    let productCertificateText = document.getElementById("struct-productCertificateText");
+    replace_dom(div, productCertificateText);
+    let certificate = document.getElementById("struct-certificate");
+    replace_dom(div, certificate);
+    let wholeSalePkgDesc = document.getElementById("struct-wholeSalePkgDesc");
+    replace_dom(div, wholeSalePkgDesc);
+    let pkgImageUpload = document.getElementById("struct-pkgImageUpload");
+    replace_dom(div, pkgImageUpload);
+    let detailVideo = document.getElementById("struct-detailVideo");
+    replace_dom(div, detailVideo);
+    let imageVideo = document.getElementById("struct-imageVideo");
+    replace_dom(div, imageVideo);
+    let productDescType = document.getElementById("struct-productDescType");
+    replace_dom(div, productDescType);
 }
 
 log(window.setTimeout(function(){main();}, 1500));
