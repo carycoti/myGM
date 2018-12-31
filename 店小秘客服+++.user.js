@@ -59,6 +59,7 @@ function add_smt_history_orders() {
 function main() {
     checked();
     add_history_orders();
+    add_smt_history_orders();
 }
 
 main();
