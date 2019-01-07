@@ -22,8 +22,9 @@ function get_product_id(url) {
 function main(){
     let title = document.querySelectorAll("a.p-subject");
     for (let i = 0; i < title.length; i++) {
-        let productid = get_product_id(title[i].href);
-        log(productid)
+        let url = title[i].href;
+        let product_id = get_product_id(url);
+        title[i].href = "http://www.aliexpress.com/item/info/" + product_id + ".html";
     }
 }
 
