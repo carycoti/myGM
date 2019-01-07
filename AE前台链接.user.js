@@ -4,7 +4,7 @@
 // @version      1.0.0
 // @description  在管理产品的后台添加相应产品的前台的链接
 // @author       Kung
-// @match        http://posting.aliexpress.com/wsproduct/manage/list.htm
+// @match        http://posting.aliexpress.com/wsproduct/manage/*
 // @grant GM_setClipboard
 // @grant GM_notification
 // ==/UserScript==
