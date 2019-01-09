@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         国际站上架
 // @namespace    http://tampermonkey.net/
-// @version      1.0.0
+// @version      2.0.0
 // @description  去除没用的内容
 // @author       Kung
 // @match        https://post.alibaba.com/product/publish*
