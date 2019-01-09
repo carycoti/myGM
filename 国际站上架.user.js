@@ -38,7 +38,7 @@ function main(){
 function add_sku(){
     let sku_div = document.getElementById("struct-p-191284004");
     let sku = sku_div.querySelector("span input").value;
-    let image_span = document.querySelector("span button.");
+    let image_span = document.querySelector("span button.next-btn-primary");
     log(image_span.textContent)
 }
 
