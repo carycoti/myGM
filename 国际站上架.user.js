@@ -35,11 +35,18 @@ function main(){
     replace_dom(div, productDescType);
 }
 
+function input_sku(sku) {
+    let sku_div = document.getElementById("container");
+    let sku_input = sku_div.querySelector("div.next-select-inner input");
+    sku_input.placeholder = sku;
+}
+
 function add_sku(){
     let sku_div = document.getElementById("struct-p-191284004");
     let sku = sku_div.querySelector("span input").value;
     let image_span = document.querySelector("span button.next-btn-primary");
-    log(image_span.textContent)
+    image_span.addEventListener("click", () =>{
+             input_sku(sku)}, false);
 }
 
 log(window.setTimeout(function(){main(); add_sku();}, 1500));
