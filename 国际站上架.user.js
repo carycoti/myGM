@@ -35,4 +35,10 @@ function main(){
     replace_dom(div, productDescType);
 }
 
-log(window.setTimeout(function(){main();}, 1500));
+function add_sku(){
+    let sku_div = document.getElementById("struct-p-191284004");
+    let sku = sku_div.querySelector("span input").value;
+    log(sku)
+}
+
+log(window.setTimeout(function(){main(); add_sku();}, 1500));
