@@ -48,7 +48,7 @@ function add_sku(){
     let sku = sku_div.querySelector("span input").value;
     let image_span = document.querySelector("span button.next-btn-primary");
     image_span.addEventListener("click", () =>{
-             input_sku(sku)}, false);
+             log(window.setTimeout(function(){input_sku();}, 1500));}, false);
 }
 
 log(window.setTimeout(function(){main(); add_sku();}, 1500));
