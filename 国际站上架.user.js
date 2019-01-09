@@ -37,8 +37,10 @@ function main(){
 
 function input_sku(sku) {
     let sku_div = document.getElementById("container");
-    let sku_input = sku_div.querySelector("div.next-select-inner input");
+    if (sku_div) {
+        let sku_input = sku_div.querySelector("div.next-select-inner input");
     sku_input.placeholder = sku;
+    }
 }
 
 function add_sku(){
