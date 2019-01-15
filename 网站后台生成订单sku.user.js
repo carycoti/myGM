@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         网站后台生成订单sku
 // @namespace    http://tampermonkey.net/
-// @version      1.0.0
+// @version      1.0.1
 // @description  网站后台生成订单sku
 // @author       Kung
 // @match        https://www.caryelectronic.com/538xd2oda/index.php?controller=AdminOrders&id_order*
@@ -45,7 +45,7 @@ function main(){
         let my_td = dom("td", {class:"my_sku"});
         let my_a = dom("a", {}, sku);
         my_td.appendChild(my_a);
-        this_tds[4].replaceChild(my_td);
+        order.replaceChild(my_td, this_tds[4]);
     }
 }
 
