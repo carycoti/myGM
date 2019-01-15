@@ -12,7 +12,7 @@
 const log = console.log.bind(console);
 
 function get_sku(text) {
-    let re = /Reference number (.+)"/g;
+    let re = /Reference number (.+)<br>/g;
     let matches = re.exec(text);
     if (matches && matches.length > 1) {
         return matches[1];
@@ -38,11 +38,14 @@ function main(){
     for (let i = 0; i < orders.length; i++) {
         let order = orders[i];
         let this_tds = order.querySelectorAll("td");
-        let product = this_tds[1].querySelector("a br").innerHTML;
+        let product = this_tds[1].querySelector("a").innerHTML;
         let sku = get_sku(product);
         let qty = this_tds[3].querySelector("span").textContent;
         sku = qty + "x" + sku;
-        log(sku);
+        let my_td = dom("td", {class:"my_sku"});
+        let my_a = dom("a", {}, sku);
+        my_td.appendChild(my_a);
+        this_tds[4].replaceChild(my_td);
     }
 }
 
