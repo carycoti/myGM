@@ -42,9 +42,7 @@ function main(){
         let sku = get_sku(product);
         let qty = this_tds[3].querySelector("span").textContent;
         sku = qty + "x" + sku;
-        let my_td = dom("td", {class:"my_sku text-center"});
-        let my_a = dom("a", {}, sku);
-        my_td.appendChild(my_a);
+        let my_td = dom("td", {class:"my_sku text-center"}, sku);
         order.replaceChild(my_td, this_tds[4]);
     }
 }
