@@ -45,8 +45,8 @@ function main(){
         let my_td = dom("td", {class:"my_sku text-center"}, sku);
         order.replaceChild(my_td, this_tds[4]);
     }
-    let this_ths = order_lists.querySelectorAll("th");
-    this_ths[4] = "SKU";
+    let this_ths = order_lists.querySelectorAll("th span");
+    this_ths[3].textContent = "SKU";
 }
 
 log(window.setTimeout(function(){main();}, 1500));
