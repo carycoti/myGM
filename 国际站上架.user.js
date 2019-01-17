@@ -9,8 +9,6 @@
 // @grant GM_notification
 // ==/UserScript==
 
-const log = console.log.bind(console);
-
 function replace_dom(replace, dom) {
     dom.parentNode.replaceChild(replace, dom);
 }
@@ -35,20 +33,17 @@ function main(){
     replace_dom(div, productDescType);
 }
 
-function input_sku(sku) {
-    let sku_div = document.getElementById("container");
-    if (sku_div) {
-        let sku_input = sku_div.querySelector("div.next-select-inner input");
-    sku_input.placeholder = sku;
-    }
-}
-
-function add_sku(){
+function get_sku() {
     let sku_div = document.getElementById("struct-p-191284004");
     let sku = sku_div.querySelector("span input").value;
-    let image_span = document.querySelector("span button.next-btn-primary");
-    image_span.addEventListener("click", () =>{
-             log(window.setTimeout(function(){input_sku();}, 1500));}, false);
+    log(sku)
 }
 
-log(window.setTimeout(function(){main(); add_sku();}, 1500));
+function show_sku(){
+    let image_span = document.querySelector("span button.next-btn-primary");
+    image_span.addEventListener("click", () =>{
+             window.setTimeout(function(){get_sku();}, 1500);}, false);
+}
+
+window.setTimeout(function(){main(); show_sku();}, 1500);
+
