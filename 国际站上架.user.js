@@ -9,6 +9,8 @@
 // @grant GM_notification
 // ==/UserScript==
 
+const log = console.log.bind(console);
+
 function replace_dom(replace, dom) {
     dom.parentNode.replaceChild(replace, dom);
 }
