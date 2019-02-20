@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         追踪号加链接
 // @namespace    http://tampermonkey.net/
-// @version      1.0.0
+// @version      1.0.1
 // @description  追踪号加链接
 // @author       Kung
 // @match        https://www.dianxiaomi.com/package/searchPackage*
