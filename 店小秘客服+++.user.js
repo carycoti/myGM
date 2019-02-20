@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         店小秘客服+++
 // @namespace    https://github.com/carycoti/myGM
-// @version      2.2.0
+// @version      2.3.0
 // @description  店小秘自动勾选nextMsg：提交发送后，自动打开下一封消息;在回信页面添加历史订单链接
 // @author       Kung
 // @match        *://www.dianxiaomi.com/ebayMessage/edit.htm*
@@ -42,7 +42,7 @@ function add_history_orders() {
 
 function add_smt_history_orders() {
     try {
-        let this_div = document.querySelector("div.gray-b");
+        let this_div = document.querySelector("div.com-block div.gray-b");
         let this_span = this_div.querySelector("span.blacklist-icons");
         let customer = this_div.querySelector("span.f-black").textContent;
         customer = customer.replace(" ", "%20");
