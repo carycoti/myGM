@@ -18,3 +18,5 @@ for (let i = 0; i < tracking_numbers.length; i++) {
     tracking_number_a.target = "_blank";
     }
 }
+
+main();
