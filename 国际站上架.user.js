@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         国际站上架
 // @namespace    http://tampermonkey.net/
-// @version      1.0.0
+// @version      2.0.0
 // @description  去除没用的内容
 // @author       Kung
 // @match        https://post.alibaba.com/product/publish*
@@ -35,4 +35,17 @@ function main(){
     replace_dom(div, productDescType);
 }
 
-log(window.setTimeout(function(){main();}, 1500));
+function get_sku() {
+    let sku_div = document.getElementById("struct-p-191284004");
+    let sku = sku_div.querySelector("span input").value;
+    log(sku)
+}
+
+function show_sku(){
+    let image_span = document.querySelector("span button.next-btn-primary");
+    image_span.addEventListener("click", () =>{
+             window.setTimeout(function(){get_sku();}, 1500);}, false);
+}
+
+window.setTimeout(function(){main(); show_sku();}, 1500);
+
