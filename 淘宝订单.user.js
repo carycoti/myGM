@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         淘宝订单
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.4
 // @description  生成淘宝订单，方便写单
 // @author       Kung
 // @match        https://trade.taobao.com/trade/itemlist/list_sold_items*
@@ -36,7 +36,7 @@ function main() {
         }
         total = total.substring(0, total.lastIndexOf(' + '));
         let my_td = document.createElement("span");
-        my_td.textContent = total;
+        my_td.innerHTML = total;
         my_td.className = "item-mod__create-time___1DIMJ";
         let add_td = order.querySelector("td label");
         add_td.parentNode.insertBefore(my_td, add_td.nextSibling);
