@@ -1,13 +1,11 @@
 // ==UserScript==
 // @name         淘宝订单
 // @namespace    http://tampermonkey.net/
-// @version      0.4
+// @version      0.5
 // @description  生成淘宝订单，方便写单
 // @author       Kung
 // @match        https://trade.taobao.com/trade/itemlist/list_sold_items*
 // ==/UserScript==
-
-const log = console.log.bind(console);
 
 function main() {
     let orders = document.querySelectorAll("div.trade-order-main");
@@ -34,7 +32,10 @@ function main() {
                 total += this_total;
             }
         }
+        let this_buyer = order.querySelector(".buyer-mod__buyer___3NRwJ p a");
+        let buyer = this_buyer.innerHTML;
         total = total.substring(0, total.lastIndexOf(' + '));
+        total = buyer + "：" + total + "：";
         let my_td = document.createElement("span");
         my_td.innerHTML = total;
         my_td.className = "item-mod__create-time___1DIMJ";
@@ -43,4 +44,4 @@ function main() {
     }
 }
 
-log(window.setTimeout(function(){main();}, 0));
+window.setTimeout(function(){main();}, 0);
