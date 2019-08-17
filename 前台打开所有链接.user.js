@@ -6,11 +6,12 @@
 // @author       Kung
 // @match        https://gsp.aliexpress.com/*
 // @match        https://www.dianxiaomi.com/*
+// @match        https://www.bilibili.com/*
+// @match        https://sspai.com/*
 // @grant GM_setClipboard
 // @grant GM_notification
 // ==/UserScript==
 
-const log = console.log.bind(console);
 
 function main(){
     let all_a = document.querySelectorAll("a");
@@ -21,4 +22,4 @@ function main(){
     }
 }
 
-log(window.setTimeout(function(){main();}, 1500));
+window.setTimeout(function(){main();}, 1500);
