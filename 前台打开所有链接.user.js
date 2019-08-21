@@ -12,12 +12,16 @@
 // @grant GM_notification
 // ==/UserScript==
 
+const log = console.log.bind(console);
 
 function main(){
     let all_a = document.querySelectorAll("a");
     for (let i = 0; i < all_a.length; i++){
          if (all_a[i].href) {
-        all_a[i].target = "_self";
+             all_a[i].addEventListener('click', function(ev) {
+  log('fabulous, really!');
+  window.open("ev.href", "_self");
+}, false);
     }
     }
 }
