@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         前台打开所有链接
 // @namespace    http://tampermonkey.net/
-// @version      1.1.0
+// @version      1.1.1
 // @description  前台打开所有链接
 // @author       Kung
 // @match        https://gsp.aliexpress.com/*
@@ -11,7 +11,7 @@
 // @grant        GM_setClipboard
 // @grant        GM_notification
 // @grant        GM_getResourceText
-// @grant GM_log
+// @grant        GM_log
 // ==/UserScript==
 
 function main() {
@@ -25,7 +25,7 @@ function main() {
                 if (origValue) {
                     return origValue + " open_in_the_current_tab"
                 }
-                {
+                else {
                     return "open_in_the_current_tab"
                 }
             }
@@ -35,4 +35,4 @@ function main() {
 
 window.setTimeout(function () {
     main();
-}, 1500);
+}, 1000);
