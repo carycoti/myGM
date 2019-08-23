@@ -7,7 +7,7 @@
 // @match        https://gsp.aliexpress.com/*
 // @match        *.dianxiaomi.com/*
 // @match        *.bilibili.com/*
-// @require      http://cdn.bootcss.com/jquery/1.12.4/jquery.min.js
+// @require      https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js
 // @grant        GM_setClipboard
 // @grant        GM_notification
 // @grant        GM_getResourceText
