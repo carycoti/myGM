@@ -7,6 +7,7 @@
 // @include     https://dianxiaomi.com/*
 // @include     https://*.dianxiaomi.com/*
 // @version     1.1.0
+// @require      https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js
 // @grant       none
 // ==/UserScript==
 
@@ -17,6 +18,7 @@ function main() {
 	if (adSidebar) {
 		adSidebar.parentNode.removeChild(adSidebar);
 	}
+	log($("div.modal-content.bs-example.bs-example-tabs.col-xs-12").find("btn-determine").remove());
 }
 
 log(window.setTimeout(function () {main();}, 1000));
