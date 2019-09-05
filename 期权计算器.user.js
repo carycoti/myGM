@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         期权计算器
 // @namespace    http://tampermonkey.net/
-// @version      1.2.0
+// @version      1.2.1
 // @description  计算期权的年化收益率和得分
 // @author       Kung
 // @match        http://data.eastmoney.com/other/valueAnal.html
@@ -24,6 +24,7 @@ function dom(tag, attr, inner) {
     return el;
 }
 
+// 计算相距天数
 function tab(date){
 	let oDate = new Date();
 	let nY = oDate.getFullYear();
@@ -38,12 +39,12 @@ function tab(date){
 
 function add_th() {
 	let annualized_rate_of_return_th = dom("th",
-	 {'style': "padding: 0px; width: 55px;"},
+	 {'style': "padding: 0px; width: 45px;"},
 	 '<span class="clickspan">年化收益率</span>');
-	let score = dom("th",
+	let score_th = dom("th",
 	 {'style': "padding: 0px; width: 45px;"},
 	 '<span class="clickspan">得分</span>');
-	$("#dt_1 thead.h101 tr").append(annualized_rate_of_return_th, score);
+	$("#dt_1 thead.h101 tr").append(annualized_rate_of_return_th, score_th);
 }
 
 function get_value() {
@@ -54,7 +55,7 @@ function get_value() {
 		exercise_price = exercise_price / 1000;
 		// 期权最新价格
 		let new_price = $(this).find("td")[2].innerText;
-		// 保证金率
+		// 最低保证金率
 		let deposit_rate = new_price / exercise_price + 0.07;
 		// 标的最新价格
 		let new_price_50 = $(this).find("td")[8].innerText;
@@ -78,6 +79,7 @@ function get_value() {
 		let annualized_rate_of_return_td = dom("td", {}, annualized_rate_of_return_str);
 		let score_td = dom("td", {}, score);
 		$(this).append(annualized_rate_of_return_td, score_td);
+		// 添加score属性用于排序
 		$(this).attr("score", score);
 	});
 }
@@ -104,9 +106,6 @@ function sortTableByScore() {
 
 function main(){
 	 $(document).ready(function () {
-		 // $("#dt_1 thead.h101").click(function () {
-			//  window.setTimeout(function(){add_th(); get_value();}, 1500);
-		 // });
 		 $("#dt_1 thead.h101,div.qq_search div.qq_btn img,#PageCont").click(function () {
 			 window.setTimeout(function(){add_th(); get_value(); sortTableByScore()}, 1500);
 		 });
