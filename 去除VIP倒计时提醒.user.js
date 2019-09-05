@@ -18,7 +18,8 @@ function main() {
 	if (adSidebar) {
 		adSidebar.parentNode.removeChild(adSidebar);
 	}
-	log($("div.modal-content.bs-example.bs-example-tabs.col-xs-12").find("btn-determine").remove());
+	log($('div.modal-dialog[role="document"]').remove());
+	log($("div.modal-content.bs-example.bs-example-tabs.col-xs-12").remove());
 }
 
 log(window.setTimeout(function () {main();}, 1000));
