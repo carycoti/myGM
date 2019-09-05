@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         期权计算器
 // @namespace    http://tampermonkey.net/
-// @version      1.1.0
+// @version      1.2.0
 // @description  计算期权的年化收益率和得分
 // @author       Kung
 // @match        http://data.eastmoney.com/other/valueAnal.html
@@ -76,9 +76,30 @@ function get_value() {
 		let score = (safety_mat * safety_mat * safety_mat) * annualized_rate_of_return * 10000;
 		score = score.toFixed(2);
 		let annualized_rate_of_return_td = dom("td", {}, annualized_rate_of_return_str);
-		let score_td = dom("td", {"class": "col"}, score);
+		let score_td = dom("td", {}, score);
 		$(this).append(annualized_rate_of_return_td, score_td);
+		$(this).attr("score", score);
 	});
+}
+
+function sortTableByScore() {
+    var $trList = $("#tabBody tr");
+    //冒泡排序
+    for (var i = 0; i < $trList.length - 1; i++) {
+        for (var j = 0; j < $trList.length - 1 - i; j++) {
+            var value1 = Number($trList[j].attributes["score"].nodeValue);
+            var value2 = Number($trList[j + 1].attributes["score"].nodeValue);
+            if (value1 < value2) {
+                var $temp = $trList[j];
+                $trList[j] = null;
+                $trList[j] = $trList[j + 1];
+                $trList[j + 1] = null;
+                $trList[j + 1] = $temp;
+            }
+        }
+    }
+    //将原来的tr清空，再将排序后的tr插入到table的dom中
+	$trList.appendTo($("#tabBody").empty());
 }
 
 function main(){
@@ -86,8 +107,8 @@ function main(){
 		 // $("#dt_1 thead.h101").click(function () {
 			//  window.setTimeout(function(){add_th(); get_value();}, 1500);
 		 // });
-		 $("#dt_1 thead.h101, div.qq_search div.qq_btn img, #PageCont a").click(function () {
-			 window.setTimeout(function(){add_th(); get_value();}, 1500);
+		 $("#dt_1 thead.h101,div.qq_search div.qq_btn img,#PageCont").click(function () {
+			 window.setTimeout(function(){add_th(); get_value(); sortTableByScore()}, 1500);
 		 });
 	 });
 }
