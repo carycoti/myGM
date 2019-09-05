@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         期权计算器
 // @namespace    http://tampermonkey.net/
-// @version      1.0.0
+// @version      1.0.1
 // @description  计算期权的年化收益率和得分
 // @author       Kung
 // @match        http://data.eastmoney.com/other/valueAnal.html
@@ -68,8 +68,16 @@ function get_value() {
 		let maturity_days = tab(date_of_expiry);
 		// 年化收益率
 		let annualized_rate_of_return = rate_of_return / maturity_days * 360;
+		let annualized_rate_of_return_str = Number(annualized_rate_of_return*100).toFixed(2);
+		annualized_rate_of_return_str += "%";
 		// 折价率
-		let discount_rate = -($(this).find("td")[6].innerText / new_price - 1)
+		let discount_rate = -($(this).find("td")[6].innerText / new_price - 1);
+		// 得分
+		let score = (safety_mat * safety_mat * safety_mat) * annualized_rate_of_return * 10000;
+		score = score.toFixed(2);
+		let annualized_rate_of_return_td = dom("td", {}, annualized_rate_of_return_str);
+		let score_td = dom("td", {"class": "col"}, score);
+		$(this).append(annualized_rate_of_return_td, score_td);
 	});
 }
 
