@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         期权计算器
 // @namespace    http://tampermonkey.net/
-// @version      1.0.1
+// @version      1.1.0
 // @description  计算期权的年化收益率和得分
 // @author       Kung
 // @match        http://data.eastmoney.com/other/valueAnal.html
@@ -83,8 +83,10 @@ function get_value() {
 
 function main(){
 	 $(document).ready(function () {
-		 // let my_table = $("table[id='dt_1']");;
-		 $("#dt_1 thead.h101").click(function () {
+		 // $("#dt_1 thead.h101").click(function () {
+			//  window.setTimeout(function(){add_th(); get_value();}, 1500);
+		 // });
+		 $("#dt_1 thead.h101, div.qq_search div.qq_btn img, #PageCont a").click(function () {
 			 window.setTimeout(function(){add_th(); get_value();}, 1500);
 		 });
 	 });
