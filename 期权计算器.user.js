@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         期权计算器
 // @namespace    http://tampermonkey.net/
-// @version      1.4.0
+// @version      1.5.0
 // @description  计算卖出认沽期权的折价率,年化收益率和得分,只适用于卖出认沽期权.使用时请选择类型为认沽期权
 // @author       Kung
 // @match        http://data.eastmoney.com/other/valueAnal.html
@@ -38,6 +38,9 @@ function tab(date){
 }
 
 function add_th() {
+	let maturity_days_th = dom("th",
+	 {'style': "padding: 0px; width: 45px;"},
+	 '占用(天)');
 	let discount_rate_th = dom("th",
 	 {'style': "padding: 0px; width: 45px;"},
 	 '折价率<i title="折价率越大越好,小于0时为溢价">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>');
@@ -47,7 +50,7 @@ function add_th() {
 	let score_th = dom("th",
 	 {'style': "padding: 0px; width: 45px;"},
 	 '得分<i title="综合安全垫和年化收益率算出的值,比较偏重安全垫">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>');
-	$("#dt_1 thead.h101 tr,#dt_1-scroll thead.h101 tr").append(discount_rate_th, annualized_rate_of_return_th, score_th);
+	$("#dt_1 thead.h101 tr,#dt_1-scroll thead.h101 tr").append(maturity_days_th, discount_rate_th, annualized_rate_of_return_th, score_th);
 }
 
 function get_value() {
@@ -82,13 +85,17 @@ function get_value() {
 			discount_rate = 1 - new_price / price;
 			if (discount_rate > 1) {discount_rate = 1;}
 		}
+		let discount_rate_str = Number(discount_rate*100).toFixed(2);
+		discount_rate_str += "%";
 		// 得分
 		let score = (safety_mat * safety_mat * safety_mat) * annualized_rate_of_return * 10000;
 		score = score.toFixed(2);
-		let discount_rate_td = dom("td", {}, discount_rate);
+		// 创建相应的td
+		let maturity_days_td = dom("td", {}, maturity_days);
+		let discount_rate_td = dom("td", {}, discount_rate_str);
 		let annualized_rate_of_return_td = dom("td", {}, annualized_rate_of_return_str);
 		let score_td = dom("td", {}, score);
-		$(this).append(discount_rate_td, annualized_rate_of_return_td, score_td);
+		$(this).append(maturity_days_td, discount_rate_td, annualized_rate_of_return_td, score_td);
 		// 添加score属性用于排序
 		$(this).attr("score", score);
 	});
