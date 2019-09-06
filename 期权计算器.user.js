@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         期权计算器
 // @namespace    http://tampermonkey.net/
-// @version      1.2.1
+// @version      1.2.2
 // @description  计算期权的年化收益率和得分
 // @author       Kung
 // @match        http://data.eastmoney.com/other/valueAnal.html
@@ -40,10 +40,10 @@ function tab(date){
 function add_th() {
 	let annualized_rate_of_return_th = dom("th",
 	 {'style': "padding: 0px; width: 45px;"},
-	 '<span class="clickspan">年化收益率</span>');
+	 '年化收益率<i title="理想状态下的最大年化收益率">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>');
 	let score_th = dom("th",
 	 {'style': "padding: 0px; width: 45px;"},
-	 '<span class="clickspan">得分</span>');
+	 '得分<i title="综合安全垫和年化收益率算出的值,比较偏重安全垫">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>');
 	$("#dt_1 thead.h101 tr").append(annualized_rate_of_return_th, score_th);
 }
 
