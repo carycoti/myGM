@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         期权计算器
 // @namespace    http://tampermonkey.net/
-// @version      1.3.0
+// @version      1.3.1
 // @description  计算卖出认沽期权的年化收益率和得分,只适用于卖出认沽期权.使用时请选择类型为认沽期权
 // @author       Kung
 // @match        http://data.eastmoney.com/other/valueAnal.html
@@ -44,6 +44,7 @@ function add_th() {
 	let score_th = dom("th",
 	 {'style': "padding: 0px; width: 45px;"},
 	 '得分<i title="综合安全垫和年化收益率算出的值,比较偏重安全垫">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>');
+	$("#dt_1-scroll-table thead.h101 tr").append(annualized_rate_of_return_th, score_th);
 	$("#dt_1 thead.h101 tr").append(annualized_rate_of_return_th, score_th);
 }
 
