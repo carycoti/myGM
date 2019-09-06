@@ -47,7 +47,7 @@ function add_th() {
 	let score_th = dom("th",
 	 {'style': "padding: 0px; width: 45px;"},
 	 '得分<i title="综合安全垫和年化收益率算出的值,比较偏重安全垫">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>');
-	$("#dt_1 thead.h101 tr,#dt_1-scroll thead.h101 tr").append(annualized_rate_of_return_th, score_th);
+	$("#dt_1 thead.h101 tr,#dt_1-scroll thead.h101 tr").append(discount_rate_th, annualized_rate_of_return_th, score_th);
 }
 
 function get_value() {
