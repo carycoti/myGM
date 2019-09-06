@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         期权计算器
 // @namespace    http://tampermonkey.net/
-// @version      1.5.0
+// @version      1.5.1
 // @description  计算卖出认沽期权的折价率,年化收益率和得分,只适用于卖出认沽期权.使用时请选择类型为认沽期权
 // @author       Kung
 // @match        http://data.eastmoney.com/other/valueAnal.html
@@ -61,6 +61,7 @@ function get_value() {
 		exercise_price = exercise_price / 1000;
 		// 期权最新价格
 		let new_price = $(this).find("td")[2].innerText;
+        new_price = Number(new_price);
 		// 最低保证金率
 		let deposit_rate = new_price / exercise_price + 0.07;
 		// 标的最新价格
@@ -81,9 +82,8 @@ function get_value() {
 		let price = $(this).find("td")[6].innerText;
 		price = Number(price);
 		let discount_rate = 1;
-		if (price > 0) {
-			discount_rate = 1 - new_price / price;
-			if (discount_rate > 1) {discount_rate = 1;}
+		if (new_price > 0) {
+			discount_rate = 1 - price / new_price;
 		}
 		let discount_rate_str = Number(discount_rate*100).toFixed(2);
 		discount_rate_str += "%";
