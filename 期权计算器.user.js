@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         期权计算器
 // @namespace    http://tampermonkey.net/
-// @version      1.2.2
-// @description  计算期权的年化收益率和得分
+// @version      1.3.0
+// @description  计算卖出认沽期权的年化收益率和得分,只适用于卖出认沽期权.使用时请选择类型为认沽期权
 // @author       Kung
 // @match        http://data.eastmoney.com/other/valueAnal.html
 // @require      https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
@@ -110,4 +110,4 @@ function main(){
 	 });
 }
 
-GM_log(window.setTimeout(function(){main();}, 1500));
+window.setTimeout(function(){main();}, 1500);
