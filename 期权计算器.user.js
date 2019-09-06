@@ -71,8 +71,6 @@ function get_value() {
 		let annualized_rate_of_return = rate_of_return / maturity_days * 360;
 		let annualized_rate_of_return_str = Number(annualized_rate_of_return*100).toFixed(2);
 		annualized_rate_of_return_str += "%";
-		// 折价率
-		let discount_rate = -($(this).find("td")[6].innerText / new_price - 1);
 		// 得分
 		let score = (safety_mat * safety_mat * safety_mat) * annualized_rate_of_return * 10000;
 		score = score.toFixed(2);
