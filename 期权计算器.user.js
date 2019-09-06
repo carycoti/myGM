@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         期权计算器
 // @namespace    http://tampermonkey.net/
-// @version      1.3.2
+// @version      1.4.0
 // @description  计算卖出认沽期权的年化收益率和得分,只适用于卖出认沽期权.使用时请选择类型为认沽期权
 // @author       Kung
 // @match        http://data.eastmoney.com/other/valueAnal.html
@@ -38,6 +38,9 @@ function tab(date){
 }
 
 function add_th() {
+	let discount_rate_th = dom("th",
+	 {'style': "padding: 0px; width: 45px;"},
+	 '折价率<i title="折价率越大越好,小于0时为溢价">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>');
 	let annualized_rate_of_return_th = dom("th",
 	 {'style': "padding: 0px; width: 45px;"},
 	 '年化收益率<i title="理想状态下的最大年化收益率">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>');
@@ -71,12 +74,21 @@ function get_value() {
 		let annualized_rate_of_return = rate_of_return / maturity_days * 360;
 		let annualized_rate_of_return_str = Number(annualized_rate_of_return*100).toFixed(2);
 		annualized_rate_of_return_str += "%";
+		// 折价率
+		let price = $(this).find("td")[6].innerText;
+		price = Number(price);
+		let discount_rate = 1;
+		if (price > 0) {
+			discount_rate = 1 - new_price / price;
+			if (discount_rate > 1) {discount_rate = 1;}
+		}
 		// 得分
 		let score = (safety_mat * safety_mat * safety_mat) * annualized_rate_of_return * 10000;
 		score = score.toFixed(2);
+		let discount_rate_td = dom("td", {}, discount_rate);
 		let annualized_rate_of_return_td = dom("td", {}, annualized_rate_of_return_str);
 		let score_td = dom("td", {}, score);
-		$(this).append(annualized_rate_of_return_td, score_td);
+		$(this).append(discount_rate_td, annualized_rate_of_return_td, score_td);
 		// 添加score属性用于排序
 		$(this).attr("score", score);
 	});
