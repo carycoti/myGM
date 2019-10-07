@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         通哥数据分析
 // @namespace    http://tampermonkey.net/
-// @version      1.2.0
+// @version      1.3.0
 // @description  通哥数据分析-市场综合评分
 // @author       Kung
 // @match        https://datamatrix.aliexpress.com/cateAnalyze.htm*
@@ -26,7 +26,7 @@ function dom(tag, attr, inner) {
 
 function add_th() {
 	let score_th = dom("th",
-	 {'rowspan': "2"},
+	 {'rowspan': "2", "style": "border: 2px solid #FFF;"},
 	 '得分');
 	$("#src-tb thead tr:first-child").append(score_th);
 }
@@ -50,7 +50,6 @@ function get_value() {
 		// 得分
 		let score = (search_index * purchase_power * customer_price) / supply_and_demand_index;
 		score = score.toFixed(2);
-		GM_log(score);
 		// 创建相应的td
 		let score_td = dom("td", {"class": "tb-normal-score"}, score);
 		$(this).append(score_td);
@@ -60,10 +59,10 @@ function get_value() {
 function main(){
 	 $(document).ready(function () {
 	 	window.setTimeout(function(){add_th(); get_value()}, 1500);
-	 	$("#hiddenProductListOption").click(function () {
+	 	$("th").click(function () {
 			 window.setTimeout(function(){add_th(); get_value()}, 1500);
 		 });
 	 })
 }
 
-GM_log(window.setTimeout(function(){main();}, 1500));
+window.setTimeout(function(){main();}, 1500);
