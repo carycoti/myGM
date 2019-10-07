@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         通哥数据分析
 // @namespace    http://tampermonkey.net/
-// @version      1.1.0
+// @version      1.2.0
 // @description  通哥数据分析-市场综合评分
 // @author       Kung
 // @match        https://datamatrix.aliexpress.com/cateAnalyze.htm*
@@ -59,7 +59,10 @@ function get_value() {
 
 function main(){
 	 $(document).ready(function () {
-	 	window.setTimeout(function(){add_th(); get_value();}, 1500);
+	 	window.setTimeout(function(){add_th(); get_value()}, 1500);
+	 	$("#hiddenProductListOption").click(function () {
+			 window.setTimeout(function(){add_th(); get_value()}, 1500);
+		 });
 	 })
 }
 
