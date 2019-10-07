@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         通哥数据分析
 // @namespace    http://tampermonkey.net/
-// @version      1.0.0
+// @version      1.1.0
 // @description  通哥数据分析-市场综合评分
 // @author       Kung
 // @match        https://datamatrix.aliexpress.com/cateAnalyze.htm*
@@ -28,7 +28,7 @@ function add_th() {
 	let score_th = dom("th",
 	 {'rowspan': "2"},
 	 '得分');
-	$("#src-tb thead tr").append(score_th);
+	$("#src-tb thead tr:first-child").append(score_th);
 }
 
 function get_value() {
@@ -37,9 +37,12 @@ function get_value() {
 		let search_index = $(this).find("td")[1].innerText;
 		// 供需指数
 		let supply_and_demand_index = $(this).find("td")[3].innerText;
-        // supply_and_demand_index = Number(supply_and_demand_index);
+        supply_and_demand_index = supply_and_demand_index.replace("%", "");
+        supply_and_demand_index = supply_and_demand_index / 100;
 		// 支付金额占比
 		let rate_of_payment = $(this).find("td")[4].innerText;
+		rate_of_payment = rate_of_payment.replace("%", "");
+		rate_of_payment= rate_of_payment /100;
 		// 客单价
 		let customer_price = $(this).find("td")[6].innerText;
 		// 购买力
