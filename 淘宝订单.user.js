@@ -1,10 +1,15 @@
 // ==UserScript==
 // @name         淘宝订单
 // @namespace    http://tampermonkey.net/
-// @version      0.5
+// @version      1.0.0
 // @description  生成淘宝订单，方便写单
 // @author       Kung
 // @match        https://trade.taobao.com/trade/itemlist/list_sold_items*
+// @require      https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js
+// @grant        GM_setClipboard
+// @grant        GM_notification
+// @grant        GM_getResourceText
+// @grant        GM_lo
 // ==/UserScript==
 
 function main() {
