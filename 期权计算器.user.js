@@ -12,44 +12,50 @@
 // ==/UserScript==
 
 function dom(tag, attr, inner) {
-    let el = document.createElement(tag);
-    for (let key in attr) {
-        if (attr.hasOwnProperty(key)) {
-            el.setAttribute(key,attr[key]);
-        }
-    }
-    if (inner) {
-        el.innerHTML = inner;
-    }
-    return el;
+	let el = document.createElement(tag);
+	for (let key in attr) {
+		if (attr.hasOwnProperty(key)) {
+			el.setAttribute(key, attr[key]);
+		}
+	}
+	if (inner) {
+		el.innerHTML = inner;
+	}
+	return el;
 }
 
 // 计算相距天数
-function tab(date){
+function tab(date) {
 	let oDate = new Date();
 	let nY = oDate.getFullYear();
 	let nM = oDate.getMonth();
 	let nD = oDate.getDate();
-	let newDate = new Date(nY,nM,nD,0,0,0);
+	let newDate = new Date(nY, nM, nD, 0, 0, 0);
 	let dates = date.split('-');
-	if (nM > dates[0]) { nY += 1;}
-	let lastDate = new Date(nY, (dates[0]-1), dates[1], 0, 0, 0);
-	return Math.abs(newDate.getTime()-lastDate.getTime())/86400000;
+	if (nM > dates[0]) {
+		nY += 1;
+	}
+	let lastDate = new Date(nY, (dates[0] - 1), dates[1], 0, 0, 0);
+	return Math.abs(newDate.getTime() - lastDate.getTime()) / 86400000;
 }
 
 function add_th() {
-	let maturity_days_th = dom("th",
-	 {'style': "padding: 0px; width: 45px;"},
-	 '占用(天)');
-	let discount_rate_th = dom("th",
-	 {'style': "padding: 0px; width: 45px;"},
-	 '折价率<i title="折价率越大越好,小于0时为溢价">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>');
-	let annualized_rate_of_return_th = dom("th",
-	 {'style': "padding: 0px; width: 45px;"},
-	 '年化收益率<i title="理想状态下的最大年化收益率">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>');
-	let score_th = dom("th",
-	 {'style': "padding: 0px; width: 45px;"},
-	 '得分<i title="综合安全垫和年化收益率算出的值,比较偏重安全垫">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>');
+	let maturity_days_th = dom("th", {
+			'style': "padding: 0px; width: 45px;"
+		},
+		'占用(天)');
+	let discount_rate_th = dom("th", {
+			'style': "padding: 0px; width: 45px;"
+		},
+		'折价率<i title="折价率越大越好,小于0时为溢价">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>');
+	let annualized_rate_of_return_th = dom("th", {
+			'style': "padding: 0px; width: 45px;"
+		},
+		'年化收益率<i title="理想状态下的最大年化收益率">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>');
+	let score_th = dom("th", {
+			'style': "padding: 0px; width: 45px;"
+		},
+		'得分<i title="综合安全垫和年化收益率算出的值,比较偏重安全垫">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>');
 	$("#dt_1 thead.h101 tr,#dt_1-scroll thead.h101 tr").append(maturity_days_th, discount_rate_th, annualized_rate_of_return_th, score_th);
 }
 
@@ -61,7 +67,7 @@ function get_value() {
 		exercise_price = exercise_price / 1000;
 		// 期权最新价格
 		let new_price = $(this).find("td")[2].innerText;
-        new_price = Number(new_price);
+		new_price = Number(new_price);
 		// 最低保证金率
 		let deposit_rate = new_price / exercise_price + 0.07;
 		// 标的最新价格
@@ -76,7 +82,7 @@ function get_value() {
 		let maturity_days = tab(date_of_expiry);
 		// 年化收益率
 		let annualized_rate_of_return = rate_of_return / maturity_days * 360;
-		let annualized_rate_of_return_str = Number(annualized_rate_of_return*100).toFixed(2);
+		let annualized_rate_of_return_str = Number(annualized_rate_of_return * 100).toFixed(2);
 		annualized_rate_of_return_str += "%";
 		// 折价率
 		let price = $(this).find("td")[6].innerText;
@@ -85,7 +91,7 @@ function get_value() {
 		if (new_price > 0) {
 			discount_rate = 1 - price / new_price;
 		}
-		let discount_rate_str = Number(discount_rate*100).toFixed(2);
+		let discount_rate_str = Number(discount_rate * 100).toFixed(2);
 		discount_rate_str += "%";
 		// 得分
 		let score = (safety_mat * safety_mat * safety_mat) * annualized_rate_of_return * 10000;
@@ -102,31 +108,37 @@ function get_value() {
 }
 
 function sortTableByScore() {
-    var $trList = $("#tabBody tr");
-    //冒泡排序
-    for (var i = 0; i < $trList.length - 1; i++) {
-        for (var j = 0; j < $trList.length - 1 - i; j++) {
-            var value1 = Number($trList[j].attributes["score"].nodeValue);
-            var value2 = Number($trList[j + 1].attributes["score"].nodeValue);
-            if (value1 < value2) {
-                var $temp = $trList[j];
-                $trList[j] = null;
-                $trList[j] = $trList[j + 1];
-                $trList[j + 1] = null;
-                $trList[j + 1] = $temp;
-            }
-        }
-    }
-    //将原来的tr清空，再将排序后的tr插入到table的dom中
+	var $trList = $("#tabBody tr");
+	//冒泡排序
+	for (var i = 0; i < $trList.length - 1; i++) {
+		for (var j = 0; j < $trList.length - 1 - i; j++) {
+			var value1 = Number($trList[j].attributes["score"].nodeValue);
+			var value2 = Number($trList[j + 1].attributes["score"].nodeValue);
+			if (value1 < value2) {
+				var $temp = $trList[j];
+				$trList[j] = null;
+				$trList[j] = $trList[j + 1];
+				$trList[j + 1] = null;
+				$trList[j + 1] = $temp;
+			}
+		}
+	}
+	//将原来的tr清空，再将排序后的tr插入到table的dom中
 	$trList.appendTo($("#tabBody").empty());
 }
 
-function main(){
-	 $(document).ready(function () {
-		 $("#dt_1 thead.h101,div.qq_search div.qq_btn img,#PageCont").click(function () {
-			 window.setTimeout(function(){add_th(); get_value(); sortTableByScore()}, 1500);
-		 });
-	 });
+function main() {
+	$(document).ready(function () {
+		$("#dt_1 thead.h101,div.qq_search div.qq_btn img,#PageCont").click(function () {
+			window.setTimeout(function () {
+				add_th();
+				get_value();
+				sortTableByScore()
+			}, 1500);
+		});
+	});
 }
 
-window.setTimeout(function(){main();}, 1500);
+window.setTimeout(function () {
+	main();
+}, 1500);

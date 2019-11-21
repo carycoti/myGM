@@ -24,8 +24,7 @@ function main() {
             "class": function (i, origValue) {
                 if (origValue) {
                     return origValue + " open_in_the_current_tab"
-                }
-                else {
+                } else {
                     return "open_in_the_current_tab"
                 }
             }

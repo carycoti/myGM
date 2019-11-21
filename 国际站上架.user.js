@@ -15,7 +15,7 @@ function replace_dom(replace, dom) {
     dom.parentNode.replaceChild(replace, dom);
 }
 
-function main(){
+function main() {
     let div = document.createElement("div");
     let salePropInfo = document.getElementById("struct-salePropInfo");
     replace_dom(div, salePropInfo);
@@ -41,11 +41,16 @@ function get_sku() {
     log(sku)
 }
 
-function show_sku(){
+function show_sku() {
     let image_span = document.querySelector("span button.next-btn-primary");
-    image_span.addEventListener("click", () =>{
-             window.setTimeout(function(){get_sku();}, 1500);}, false);
+    image_span.addEventListener("click", () => {
+        window.setTimeout(function () {
+            get_sku();
+        }, 1500);
+    }, false);
 }
 
-window.setTimeout(function(){main(); show_sku();}, 1500);
-
+window.setTimeout(function () {
+    main();
+    show_sku();
+}, 1500);

@@ -19,7 +19,7 @@ function get_product_id(url) {
     }
 }
 
-function main(){
+function main() {
     let title = document.querySelectorAll("a.p-subject");
     for (let i = 0; i < title.length; i++) {
         let url = title[i].href;
@@ -28,4 +28,6 @@ function main(){
     }
 }
 
-log(window.setTimeout(function(){main();}, 1500));
+log(window.setTimeout(function () {
+    main();
+}, 1500));

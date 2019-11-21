@@ -22,8 +22,7 @@ function main() {
         let matches = re.exec(qty);
         if (matches && matches.length > 1) {
             qty = parseInt(matches[1]);
-        }
-        else {
+        } else {
             qty = 1;
         }
         let price = this_div[3 + 12 * i].querySelector('input').value;
@@ -43,4 +42,6 @@ function main() {
     GM_notification("SKU & 价格已复制到剪切板中~");
 }
 
-window.setTimeout(function(){main();}, 1000);
+window.setTimeout(function () {
+    main();
+}, 1000);

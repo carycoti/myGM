@@ -10,7 +10,7 @@
 
 const log = console.log.bind(console);
 
-function create_tag(id, text, href){
+function create_tag(id, text, href) {
     let my_ul = document.querySelectorAll("ul.list-style-none")[0];
     let my_trending = document.createElement("li");
     let my_a = document.createElement("a");
@@ -22,7 +22,7 @@ function create_tag(id, text, href){
     my_ul.appendChild(my_trending);
 }
 
-function my_trending(){
+function my_trending() {
     create_tag("my-trending-url", "Trending", "https://github.com/trending/python?since=daily");
 }
 
@@ -37,11 +37,14 @@ function gist_url() {
 function your_github() {
     create_tag("my-git-hub", "YourGithub", "https://github.com/carycoti");
 }
-function main(){
+
+function main() {
     my_trending();
     your_stars();
     gist_url();
     your_github();
 }
 
-log(window.setTimeout(function(){main();}, 0));
+log(window.setTimeout(function () {
+    main();
+}, 0));

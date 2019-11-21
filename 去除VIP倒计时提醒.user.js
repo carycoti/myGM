@@ -22,4 +22,6 @@ function main() {
 	log($("div.modal-content.bs-example.bs-example-tabs.col-xs-12").remove());
 }
 
-log(window.setTimeout(function () {main();}, 1000));
+log(window.setTimeout(function () {
+	main();
+}, 1000));

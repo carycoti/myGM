@@ -11,54 +11,58 @@
 
 const log = console.log.bind(console);
 
-function buttonpre(){
-	let ButtonPre = document.createElement('a');
-	ButtonPre.id = 'ali-pre-button';
-	ButtonPre.textContent = "上一页";
+function buttonpre() {
+    let ButtonPre = document.createElement('a');
+    ButtonPre.id = 'ali-pre-button';
+    ButtonPre.textContent = "上一页";
     let pre = document.querySelectorAll("a.prev");
-    if (pre.length){
+    if (pre.length) {
         let Pre = pre[0];
         Pre.parentNode.replaceChild(ButtonPre, Pre);
         let buttonpre = document.getElementById('ali-pre-button');
-        buttonpre.addEventListener("click", () =>{
-            open(location, '_self').close(); window.open(Pre.href, "_blank");}, false);
-}
-}
-
-function buttonnext(){
-	let Buttonnext = document.createElement('a');
-	Buttonnext.id = 'ali-next-button';
-	Buttonnext.textContent = "下一页";
-    let next = document.querySelectorAll("a.next");
-    if (next.length){
-        let Next = next[0];
-        Next.parentNode.replaceChild(Buttonnext, Next);
-        let buttonNext = document.getElementById('ali-next-button');
-        buttonNext.addEventListener("click", () =>{
-             open(location, '_self').close(); window.open(Next.href, "_blank");}, false);
+        buttonpre.addEventListener("click", () => {
+            open(location, '_self').close();
+            window.open(Pre.href, "_blank");
+        }, false);
     }
 }
 
-function get_image(){
+function buttonnext() {
+    let Buttonnext = document.createElement('a');
+    Buttonnext.id = 'ali-next-button';
+    Buttonnext.textContent = "下一页";
+    let next = document.querySelectorAll("a.next");
+    if (next.length) {
+        let Next = next[0];
+        Next.parentNode.replaceChild(Buttonnext, Next);
+        let buttonNext = document.getElementById('ali-next-button');
+        buttonNext.addEventListener("click", () => {
+            open(location, '_self').close();
+            window.open(Next.href, "_blank");
+        }, false);
+    }
+}
+
+function get_image() {
     let result = [];
     let all_div = document.querySelectorAll("div.default-preview-item");
     for (let i = 0; i < all_div.length; i++) {
         let thisElement = all_div[i];
         let thisImg = thisElement.querySelectorAll("img");
         let thisSKU = thisElement.querySelectorAll("div.default-preview-name");
-        if (thisImg.length){
+        if (thisImg.length) {
             let SKU = thisSKU[0].textContent.Trim();
             let img_url = thisImg[0].src.replace("_350x350.jpg", "").replace("_350x350.png", "");
             let str = [];
-                str.push(SKU);
-                str.push(img_url);
+            str.push(SKU);
+            str.push(img_url);
             let str1 = str.join("\t");
             result.push(str1);
         }
     }
     let rst = result.join("\n");
     let this_sku = document.createElement("textarea");
-    if (all_div.length < 10){
+    if (all_div.length < 10) {
         this_sku.rows = all_div.length;
     } else {
         this_sku.rows = 10;
@@ -72,10 +76,12 @@ function get_image(){
     GM_notification("SKU & 图片链接地址已复制到剪切板中~");
 }
 
-function main(){
+function main() {
     get_image();
     buttonpre();
     buttonnext();
 }
 
-log(window.setTimeout(function(){main();}, 1500));
+log(window.setTimeout(function () {
+    main();
+}, 1500));

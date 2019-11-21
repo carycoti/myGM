@@ -13,12 +13,12 @@ function main() {
         let total = "";
         let order = orders[i];
         let this_product = order.querySelectorAll("tr.suborder-mod__item___dY2q5");
-        for (let k = 0; k < this_product.length; k++){
+        for (let k = 0; k < this_product.length; k++) {
             let this_td = this_product[k].querySelectorAll("td.sol-mod__no-br___1PwLO");
             let this_p = this_td[2].querySelector("div p");
             let qty = this_p.innerHTML;
             let this_span = this_td[0].querySelector("span.production-mod__sku-item___3zYoT");
-            if (this_span){
+            if (this_span) {
                 let this_sku = this_span.querySelectorAll("span");
                 let sku = this_sku[2].innerHTML;
                 sku = sku.replace("GZ", "");
@@ -44,4 +44,6 @@ function main() {
     }
 }
 
-window.setTimeout(function(){main();}, 0);
+window.setTimeout(function () {
+    main();
+}, 0);

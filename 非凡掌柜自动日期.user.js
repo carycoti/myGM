@@ -10,18 +10,18 @@
 
 const log = console.log.bind(console);
 
-function fun_date(aa, sep="-"){
-        let date = new Date();
-        date.setDate(date.getDate()+aa);
-    return date.getFullYear()+sep+(fillZero(date.getMonth()+1))+sep+fillZero(date.getDate());
-    }
-
-
-function fillZero(value){
-if(value.toString().length<2){
-    return "0"+value;
+function fun_date(aa, sep = "-") {
+    let date = new Date();
+    date.setDate(date.getDate() + aa);
+    return date.getFullYear() + sep + (fillZero(date.getMonth() + 1)) + sep + fillZero(date.getDate());
 }
-return value;
+
+
+function fillZero(value) {
+    if (value.toString().length < 2) {
+        return "0" + value;
+    }
+    return value;
 }
 
 function main() {
@@ -33,4 +33,6 @@ function main() {
     end_date.value = end;
 }
 
-log(window.setTimeout(function () {main();}, 100));
+log(window.setTimeout(function () {
+    main();
+}, 100));

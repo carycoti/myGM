@@ -23,7 +23,7 @@ function dom(tag, attr, inner) {
     let el = document.createElement(tag);
     for (let key in attr) {
         if (attr.hasOwnProperty(key)) {
-            el.setAttribute(key,attr[key]);
+            el.setAttribute(key, attr[key]);
         }
     }
     if (inner) {
@@ -32,7 +32,7 @@ function dom(tag, attr, inner) {
     return el;
 }
 
-function main(){
+function main() {
     let order_lists = document.getElementById("orderProducts");
     let orders = order_lists.querySelectorAll("tr.product-line-row");
     for (let i = 0; i < orders.length; i++) {
@@ -42,11 +42,15 @@ function main(){
         let sku = get_sku(product);
         let qty = this_tds[3].querySelector("span").textContent;
         sku = qty + "x" + sku;
-        let my_td = dom("td", {class:"my_sku text-center"}, sku);
+        let my_td = dom("td", {
+            class: "my_sku text-center"
+        }, sku);
         order.replaceChild(my_td, this_tds[4]);
     }
     let this_ths = order_lists.querySelectorAll("th span");
     this_ths[3].textContent = "SKU";
 }
 
-log(window.setTimeout(function(){main();}, 1500));
+log(window.setTimeout(function () {
+    main();
+}, 1500));

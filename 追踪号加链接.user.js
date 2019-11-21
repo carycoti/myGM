@@ -9,14 +9,14 @@
 // @grant GM_notification
 // ==/UserScript==
 
-function main(){
-let tracking_numbers = document.querySelectorAll("span.limingcentUrlpicson");
-for (let i = 0; i < tracking_numbers.length; i++) {
+function main() {
+  let tracking_numbers = document.querySelectorAll("span.limingcentUrlpicson");
+  for (let i = 0; i < tracking_numbers.length; i++) {
     let tracking_number_a = tracking_numbers[i].querySelector("a");
     let tracking_number = tracking_number_a.textContent;
     tracking_number_a.href = 'https://t.17track.net/en#nums=' + tracking_number;
     tracking_number_a.target = "_blank";
-    }
+  }
 }
 
 main();
