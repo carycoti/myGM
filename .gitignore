@@ -9,3 +9,4 @@ tmp
 .vscode
 package-lock.json
 package.json
+.history/
