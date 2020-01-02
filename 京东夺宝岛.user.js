@@ -1,14 +1,13 @@
 // ==UserScript==
 // @name         京东夺宝岛只显示备件库自营
 // @namespace    http://tampermonkey.net/
-// @version      1.4.0
+// @version      2.0.0
 // @description  京东夺宝岛只显示备件库自营
 // @author       Kung
 // @match        https://sell.paipai.com/auction-list/*
 // @require      https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
 // @grant GM_setClipboard
 // @grant GM_notification
-// @grant        GM_log
 // ==/UserScript==
 
 function main() {
@@ -23,12 +22,11 @@ function main() {
   })
 }
 
-log(window.setTimeout(function () {
-  // main();
-  // $("button.btn-prev, button.btn-next, ul.el-pager").click(function () {
-  //   main();
-  // })
-  $(document).click(function () {
-    main();
-  })
-}, 1500));
+window.setTimeout(function () {
+  main();
+  $("body, button.btn-prev, button.btn-next, ul.el-pager").click(function () {
+    window.setTimeout(function () {
+      main();
+    }, 1500);
+  });
+}, 1500);
