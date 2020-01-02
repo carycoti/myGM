@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         京东夺宝岛只显示备件库自营
 // @namespace    http://tampermonkey.net/
-// @version      1.3.0
+// @version      1.4.0
 // @description  京东夺宝岛只显示备件库自营
 // @author       Kung
 // @match        https://sell.paipai.com/auction-list/*
@@ -16,7 +16,6 @@ function main() {
     $("li.gl-item").each(function () {
       let shop = $(this).find("div.p-label");
       shop = shop.text();
-      GM_log(shop);
       if (shop.indexOf("备件库自营") == -1) {
         $(this).hide();
       }
