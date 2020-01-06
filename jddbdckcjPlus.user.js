@@ -2,7 +2,7 @@
 // @name        参考出价
 // @description zh-cn
 // @namespace   http://tampermonkey.net/
-// @version     2.1.0
+// @version     2.2.0
 // @match       https://sell.paipai.com/auction-detail/*
 // @require     https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
 // @grant       GM_log
@@ -100,7 +100,7 @@ function main() {
                 let iclog = "";
                 if (mytable.length >= 3) {
                     $(mytable).each(function (i) {
-                        if (i > 0 && i < 6) {
+                        if (i > 0 && i < 6 && i < mytable.length -1) {
                             let chujia = $(this).find('td')[3].innerText;
                             let yuanjia = $(this).find('td')[4].innerText;
                             let ftime = $(this).find('td')[5].innerText;
