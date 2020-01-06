@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         京东夺宝岛只显示备件库自营
+// @name         只显示备件库自营
 // @namespace    http://tampermonkey.net/
 // @version      2.0.0
-// @description  京东夺宝岛只显示备件库自营
+// @description  只显示备件库自营
 // @author       Kung
 // @match        https://sell.paipai.com/auction-list/*
 // @require      https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
