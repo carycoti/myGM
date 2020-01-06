@@ -81,7 +81,7 @@ function main() {
         onload: function (response) {
             if (response.status === 200) {
                 let result = response.responseText;
-                let re_averige = /平均成交价:(\d+\.\d+)/g;
+                let re_averige = /平均成交价:(\d+.?\d+)/g;
                 let averige_price = get_something(re_averige, result);
                 let re_lowest = /最低成交价:(\d+)/g;
                 let lowest_price = get_something(re_lowest, result);
