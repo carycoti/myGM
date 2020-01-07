@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         只显示备件库自营
 // @namespace    http://tampermonkey.net/
-// @version      2.1.0
+// @version      2.2.0
 // @description  只显示备件库自营
 // @author       Kung
 // @match        https://sell.paipai.com/auction-list/*
@@ -15,7 +15,7 @@ function main() {
     $("li.gl-item").each(function () {
       let shop = $(this).find("div.p-label");
       shop = shop.text();
-      if (shop.indexOf("自营") == -1) {
+      if (shop.indexOf("备件库自营") == -1) {
         $(this).hide();
       }
     })

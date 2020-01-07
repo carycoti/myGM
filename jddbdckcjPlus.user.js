@@ -2,7 +2,7 @@
 // @name        参考出价
 // @description zh-cn
 // @namespace   http://tampermonkey.net/
-// @version     2.2.0
+// @version     2.3.0
 // @match       https://sell.paipai.com/auction-detail/*
 // @require     https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
 // @grant       GM_log
@@ -25,7 +25,7 @@ sdiv.css({
     'padding': '5px'
 });
 $('body').append(sdiv);
-sdiv.append('<hr><ul id="iclog"></ul>');
+sdiv.append('<hr><ul id="clog"></ul>');
 
 function get_re(re, some) {
     let matches = re.exec(some);
@@ -35,19 +35,13 @@ function get_re(re, some) {
 }
 
 function get_id(url) {
-    let re = /auction-detail\/(\d+)/g
-    let matches = re.exec(url);
-    if (matches && matches.length > 1) {
-        return matches[1];
-    }
+    let re = /auction-detail\/(\d+)/g;
+    get_re(re, url);
 }
 
 function get_title(title) {
-    let re = /】(.+)【/g
-    let matches = re.exec(title);
-    if (matches && matches.length > 1) {
-        return matches[1];
-    }
+    let re = /】(.+)【/g;
+    get_re(re, title);
 }
 
 function get_use(title) {
@@ -97,20 +91,20 @@ function main() {
                 // let re_tr = /<tr>([\w\W]*)<\/tr>/g
                 // let tr_list = re_tr.exec(result)
                 let mytable = $(response.response).find("#mytable tr");
-                let iclog = "";
+                let clog = "";
                 if (mytable.length >= 3) {
                     $(mytable).each(function (i) {
-                        if (i > 0 && i < 6 && i < mytable.length -1) {
+                        if (i > 0 && i < 6 && i < mytable.length - 1) {
                             let chujia = $(this).find('td')[3].innerText;
                             let yuanjia = $(this).find('td')[4].innerText;
                             let ftime = $(this).find('td')[5].innerText;
-                            iclog = iclog + "<li>" + i + ". 成交价:" + chujia + "元  原价: " + yuanjia + "元</br>结束时间: " + ftime + "</li>"
+                            clog = clog + "<li>" + i + ". 成交价:" + chujia + "元  原价: " + yuanjia + "元</br>结束时间: " + ftime + "</li>";
                             i += 1;
 
                         }
                     })
                 }
-                $('#iclog').html(iclog);
+                $('#clog').html(clog);
             }
         }
     })
@@ -134,7 +128,7 @@ document.onmousemove = function (e) {
         let oY = e.clientY - iY;
         sdiv.css({
             'left': oX + 'px',
-            'top': oY + 'px'
+            'top': oY + 'px',
         });
         return false;
     }
