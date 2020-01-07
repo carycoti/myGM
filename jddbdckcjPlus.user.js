@@ -2,7 +2,7 @@
 // @name        参考出价
 // @description zh-cn
 // @namespace   http://tampermonkey.net/
-// @version     3.0.1
+// @version     3.0.2
 // @match       https://sell.paipai.com/auction-detail/*
 // @require     https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
 // @grant       GM_log
@@ -28,7 +28,7 @@ sdiv.css({
     'padding': '5px'
 });
 $('body').append(sdiv);
-sdiv.append('<hr><ul id="clog"></ul>');
+sdiv.append('<ul id="clog"></ul>');
 var sbtn = $('<hr><button>复制Cookie</button>');
 sdiv.append(sbtn);
 
