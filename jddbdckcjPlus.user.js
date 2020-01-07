@@ -2,11 +2,13 @@
 // @name        参考出价
 // @description zh-cn
 // @namespace   http://tampermonkey.net/
-// @version     2.4.0
+// @version     3.0.0
 // @match       https://sell.paipai.com/auction-detail/*
 // @require     https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
 // @grant       GM_log
 // @grant       GM_xmlhttpRequest
+// @grant       GM_setClipboard
+// @grant       GM_notification
 // ==/UserScript==
 
 var sdiv = $('<div>ID: <span id="itemid">0</span>' +
@@ -26,6 +28,10 @@ sdiv.css({
 });
 $('body').append(sdiv);
 sdiv.append('<hr><ul id="clog"></ul>');
+var jbtn = $('<button>复制ID</button>');
+var sbtn = $('<button>复制Cookie</button>');
+sdiv.append(jbtn);
+sdiv.append(sbtn);
 
 function get_re(re, some) {
     let matches = re.exec(some);
@@ -35,7 +41,7 @@ function get_re(re, some) {
 }
 
 function get_id(url) {
-    let re = /auction-detail\/(\d+)/g
+    let re = /auction-detail\/(\d+)/g;
     let matches = re.exec(url);
     if (matches && matches.length > 1) {
         return matches[1];
@@ -43,7 +49,7 @@ function get_id(url) {
 }
 
 function get_title(title) {
-    let re = /】(.+)【/g
+    let re = /】(.+)【/g;
     let matches = re.exec(title);
     if (matches && matches.length > 1) {
         return matches[1];
@@ -51,7 +57,7 @@ function get_title(title) {
 }
 
 function get_use(title) {
-    let re = /备件库(\d+)[成]?新/g
+    let re = /备件库(\d+)[成]?新/g;
     let matches = re.exec(title);
     if (matches && matches.length > 1) {
         let rst = parseInt(matches[1])
@@ -65,11 +71,11 @@ function get_use(title) {
 
 
 function main() {
-    let id = get_id(window.location.href)
+    let id = get_id(window.location.href);
     let title = get_title(document.title);
     let use = get_use(document.title);
     let price = $('span.n-price .price').text();
-    price = parseInt(price)
+    price = parseInt(price);
     $('#clog').empty();
     $('#itemid').text(id);
     $('#40offpirce').text(parseInt(price * 0.6));
@@ -119,6 +125,18 @@ function main() {
 window.setTimeout(function () {
     main();
 }, 1500);
+
+
+jbtn.click(function (){
+    let id = get_id(window.location.href);
+    GM_setClipboard(id);
+    GM_notification('ID已复制!')
+})
+
+sbtn.click(function (){
+    GM_setClipboard(document.cookie);
+    GM_notification('Cookie已复制!')
+})
 
 let dragging = false;
 let iX, iY;
