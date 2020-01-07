@@ -2,7 +2,7 @@
 // @name        参考出价
 // @description zh-cn
 // @namespace   http://tampermonkey.net/
-// @version     3.0.0
+// @version     3.0.1
 // @match       https://sell.paipai.com/auction-detail/*
 // @require     https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
 // @grant       GM_log
@@ -11,7 +11,8 @@
 // @grant       GM_notification
 // ==/UserScript==
 
-var sdiv = $('<div>ID: <span id="itemid">0</span>' +
+var sdiv = $('<div>ID: <span id="itemid">0</span> | ' +
+    '<button id="jbtn">复制ID</button>' +
     '<hr>原价6折: <span id="40offpirce">0</span> </br>' +
     '90天平均出价: <span id="averigeprice">0</span> </br> ' +
     '90天最低出价: <span id="lowestprice">0</span> </hr>' +
@@ -28,9 +29,7 @@ sdiv.css({
 });
 $('body').append(sdiv);
 sdiv.append('<hr><ul id="clog"></ul>');
-var jbtn = $('<button>复制ID</button>');
-var sbtn = $('<button>复制Cookie</button>');
-sdiv.append(jbtn);
+var sbtn = $('<hr><button>复制Cookie</button>');
 sdiv.append(sbtn);
 
 function get_re(re, some) {
@@ -68,7 +67,6 @@ function get_use(title) {
         }
     }
 }
-
 
 function main() {
     let id = get_id(window.location.href);
@@ -127,15 +125,13 @@ window.setTimeout(function () {
 }, 1500);
 
 
-jbtn.click(function (){
+$('#jbtn').click(function () {
     let id = get_id(window.location.href);
     GM_setClipboard(id);
-    GM_notification('ID已复制!')
 })
 
-sbtn.click(function (){
+sbtn.click(function () {
     GM_setClipboard(document.cookie);
-    GM_notification('Cookie已复制!')
 })
 
 let dragging = false;
