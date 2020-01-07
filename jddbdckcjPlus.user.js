@@ -2,7 +2,7 @@
 // @name        参考出价
 // @description zh-cn
 // @namespace   http://tampermonkey.net/
-// @version     2.3.0
+// @version     2.4.0
 // @match       https://sell.paipai.com/auction-detail/*
 // @require     https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
 // @grant       GM_log
@@ -35,13 +35,19 @@ function get_re(re, some) {
 }
 
 function get_id(url) {
-    let re = /auction-detail\/(\d+)/g;
-    get_re(re, url);
+    let re = /auction-detail\/(\d+)/g
+    let matches = re.exec(url);
+    if (matches && matches.length > 1) {
+        return matches[1];
+    }
 }
 
 function get_title(title) {
-    let re = /】(.+)【/g;
-    get_re(re, title);
+    let re = /】(.+)【/g
+    let matches = re.exec(title);
+    if (matches && matches.length > 1) {
+        return matches[1];
+    }
 }
 
 function get_use(title) {
