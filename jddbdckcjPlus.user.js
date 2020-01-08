@@ -4,6 +4,8 @@
 // @namespace   http://tampermonkey.net/
 // @version     3.1.0
 // @match       https://sell.paipai.com/auction-detail/*
+// @match       https://sell.paipai.com/auction-detail*
+// @match       https://item.jd.com/*
 // @require     https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
 // @grant       GM_log
 // @grant       GM_xmlhttpRequest
@@ -19,7 +21,7 @@ var sdiv = $('<div>ID: <span id="itemid">0</span> | ' +
     '<hr>最近出价参考: </div>');
 sdiv.css({
     'position': 'fixed',
-    'top': '25px',
+    'top': '180px',
     'right': '10px',
     'width': '200px',
     'border': '2px solid #000',
@@ -65,7 +67,7 @@ function get_use(title) {
         } else {
             return rst * 10;
         }
-    }
+    } else { return "all";}
 }
 
 function main() {
