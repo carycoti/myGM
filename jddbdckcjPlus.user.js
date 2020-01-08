@@ -2,7 +2,7 @@
 // @name        参考出价
 // @description zh-cn
 // @namespace   http://tampermonkey.net/
-// @version     3.0.3
+// @version     3.0.4
 // @match       https://sell.paipai.com/auction-detail*
 // @require     https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
 // @grant       GM_log
@@ -19,7 +19,7 @@ var sdiv = $('<div>ID: <span id="itemid">0</span> | ' +
     '<hr>最近出价参考: </div>');
 sdiv.css({
     'position': 'fixed',
-    'top': '25px',
+    'top': '180px',
     'right': '10px',
     'width': '200px',
     'border': '2px solid #000',
