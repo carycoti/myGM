@@ -2,7 +2,7 @@
 // @name        参考出价
 // @description zh-cn
 // @namespace   http://tampermonkey.net/
-// @version     3.0.2
+// @version     3.1.0
 // @match       https://sell.paipai.com/auction-detail/*
 // @require     https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
 // @grant       GM_log
@@ -29,8 +29,8 @@ sdiv.css({
 });
 $('body').append(sdiv);
 sdiv.append('<ul id="clog"></ul>');
-var sbtn = $('<hr><button>复制Cookie</button>');
-sdiv.append(sbtn);
+// var sbtn = $('<hr><button>复制Cookie</button>');
+// sdiv.append(sbtn);
 
 function get_re(re, some) {
     let matches = re.exec(some);
@@ -130,9 +130,9 @@ $('#jbtn').click(function () {
     GM_setClipboard(id);
 })
 
-sbtn.click(function () {
-    GM_setClipboard(document.cookie);
-})
+// sbtn.click(function () {
+//     GM_setClipboard(document.cookie);
+// })
 
 let dragging = false;
 let iX, iY;
