@@ -2,8 +2,9 @@
 // @name        参考出价
 // @description zh-cn
 // @namespace   http://tampermonkey.net/
-// @version     3.0.4
+// @version     3.1.0
 // @match       https://sell.paipai.com/auction-detail*
+// @match       https://item.jd.com/*
 // @require     https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
 // @grant       GM_log
 // @grant       GM_xmlhttpRequest
@@ -65,7 +66,7 @@ function get_use(title) {
         } else {
             return rst * 10;
         }
-    }
+    } else { return "all";}
 }
 
 function main() {
