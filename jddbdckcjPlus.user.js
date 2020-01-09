@@ -2,7 +2,7 @@
 // @name        参考出价
 // @description zh-cn
 // @namespace   http://tampermonkey.net/
-// @version     4.0.0
+// @version     4.1.0
 // @match       https://sell.paipai.com/auction-detail/*
 // @match       https://sell.paipai.com/auction-detail*
 // @match       https://item.jd.com/*
