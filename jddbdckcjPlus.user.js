@@ -21,7 +21,7 @@ var sdiv = $('<div>ID: <span id="itemid">0</span> | ' +
     '<hr>最近出价参考: </div>');
 sdiv.css({
     'position': 'fixed',
-    'top': '180px',
+    'top': '170px',
     'right': '10px',
     'width': '200px',
     'border': '2px solid #000',
