@@ -2,7 +2,7 @@
 // @name        参考出价
 // @description zh-cn
 // @namespace   http://tampermonkey.net/
-// @version     4.2.0
+// @version     4.3.0
 // @match       https://sell.paipai.com/auction-detail/*
 // @match       https://sell.paipai.com/auction-detail*
 // @match       https://item.jd.com/*
@@ -193,8 +193,8 @@ function main() {
                                 l_discount = l_discount.toFixed(1);
                                 $('#averigeprice').text(parseInt(average_chujia));
                                 $('#lowestprice').text(minchujia);
-                                $('#a_discount').text(parseInt(a_discount));
-                                $('#l_discount').text(parseInt(l_discount));
+                                $('#a_discount').text(a_discount);
+                                $('#l_discount').text(l_discount);
                             }
                             $('#clog').html(clog);
                         } 
