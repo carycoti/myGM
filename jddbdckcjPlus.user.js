@@ -16,8 +16,8 @@
 var sdiv = $('<div>ID: <span id="itemid">0</span> | ' +
     '<button id="jbtn">复制ID</button>' +
     '<hr>原价6折: <span id="40offpirce">0</span> </br>' +
-    '90天平均出价: <span id="averigeprice">0</span> </br> ' +
-    '90天最低出价: <span id="lowestprice">0</span> </hr>' +
+    '90天平均出价: <span id="averigeprice">0</span>  相当于<span id="a_discount">0</span>折</br> ' +
+    '90天最低出价: <span id="lowestprice">0</span>  相当于<span id="l_discount">0</span>折</hr>' +
     '<hr>最近出价参考: </div>');
 sdiv.css({
     'position': 'fixed',
@@ -187,8 +187,12 @@ function main() {
                                     }
                                 }
                                 average_chujia = total_chujia / m;
+                                a_discount = average_chujia / price * 100;
+                                l_discount = minchujia / price * 100;
                                 $('#averigeprice').text(parseInt(average_chujia));
                                 $('#lowestprice').text(minchujia);
+                                $('#a_discount').text(parseInt(a_discount));
+                                $('#lowestprice').text(parseInt(a_discount));
                             }
                             $('#clog').html(clog);
                         } 
