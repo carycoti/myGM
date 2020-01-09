@@ -2,7 +2,7 @@
 // @name        参考出价
 // @description zh-cn
 // @namespace   http://tampermonkey.net/
-// @version     3.2.0
+// @version     4.0.0
 // @match       https://sell.paipai.com/auction-detail/*
 // @match       https://sell.paipai.com/auction-detail*
 // @match       https://item.jd.com/*
@@ -72,61 +72,217 @@ function get_use(title) {
         if (rst == 95 || rst == 99) {
             return rst;
         } else {
-            return rst * 10;
+            return rst;
         }
-    } else { return "all";}
+    } else {
+        return 1;
+    }
+}
+
+function get_usedId(title) {
+    let url = "http://duobaozhinan.com/api/getusedinfo.json?name=" + title
+    GM_xmlhttpRequest({
+        method: "GET",
+        url: url,
+        headers: {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+            'Referer': 'http://duobaozhinan.com',
+            'Cookie': 'Hm_lvt_c15140d06bc2de9496f59f92d2267b42=1578020885; Hm_lpvt_c15140d06bc2de9496f59f92d2267b42=1578560624',
+        },
+        onload: function (response) {
+            if (response.status === 200) {
+                let result = response.responseText;
+                let re_usedID = /"usedId":"(\d+)/;
+                let usedID = get_re(re_usedID, result);
+                return usedID;
+            } else {
+                GM_log('没有找到相关宝物')
+            }
+        }
+    })
+}
+
+function get_by_usedid(usedID, use = 1) {
+    let re_url = 'http://duobaozhinan.com/api/getbyusedid.json?usedid=' + usedID.toString() + '&quality=' + use.toString()
+    GM_xmlhttpRequest({
+        method: "GET",
+        url: re_url,
+        headers: {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+            'Referer': 'http://duobaozhinan.com',
+            'Cookie': 'Hm_lvt_c15140d06bc2de9496f59f92d2267b42=1578020885; Hm_lpvt_c15140d06bc2de9496f59f92d2267b42=1578560624',
+        },
+        onload: function (response) {
+            if (response.status === 200) {
+                let result = response.responseText;
+                return result
+            } else {
+                GM_log(response.responseText)
+            }
+        }
+    })
 }
 
 function main() {
     let id = get_id(window.location.href);
     let title = get_title(document.title);
+    title = title.replace(" ", "%20").replace("|", "")
     let use = get_use(document.title);
     let price = $('span.n-price .price').text();
     price = parseInt(price);
+    
     $('#clog').empty();
     $('#itemid').text(id);
     $('#40offpirce').text(parseInt(price * 0.6));
-    let data = "shopName=" + title + "&use=" + use + "&productType=1&days=90&numbers=100"
-    let rf_url = 'http://jd.svipnet.com/list.php';
 
+    let url = "http://duobaozhinan.com/api/getusedinfo.json?name=" + title
     GM_xmlhttpRequest({
-        method: "POST",
-        url: rf_url,
+        method: "GET",
+        url: url,
         headers: {
-            'User-Agent': 'Mozilla/4.0 (compatible) Greasemonkey',
-            'Accept': 'application/atom+xml,application/xml,text/xml',
-            'Content-type': 'application/x-www-form-urlencoded',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+            'Referer': 'http://duobaozhinan.com',
+            'Cookie': 'Hm_lvt_c15140d06bc2de9496f59f92d2267b42=1578020885; Hm_lpvt_c15140d06bc2de9496f59f92d2267b42=1578560624',
         },
-        data: data,
         onload: function (response) {
             if (response.status === 200) {
                 let result = response.responseText;
-                let re_averige = /平均成交价:(\d+.?\d+)/g;
-                let averige_price = get_re(re_averige, result);
-                let re_lowest = /最低成交价:(\d+)/g;
-                let lowest_price = get_re(re_lowest, result);
-                $('#averigeprice').text(averige_price);
-                $('#lowestprice').text(lowest_price);
-                // let re_tr = /<tr>([\w\W]*)<\/tr>/g
-                // let tr_list = re_tr.exec(result)
-                let mytable = $(response.response).find("#mytable tr");
-                let clog = "";
-                if (mytable.length >= 3) {
-                    $(mytable).each(function (i) {
-                        if (i > 0 && i < 6 && i < mytable.length - 1) {
-                            let chujia = $(this).find('td')[3].innerText;
-                            let yuanjia = $(this).find('td')[4].innerText;
-                            let ftime = $(this).find('td')[5].innerText;
-                            clog = clog + "<li>" + i + ". 成交价:" + chujia + "元  原价: " + yuanjia + "元</br>结束时间: " + ftime + "</li>";
-                            i += 1;
-
-                        }
-                    })
-                }
-                $('#clog').html(clog);
+                let re_usedID = /"usedId":"(\d+)/;
+                let usedID = get_re(re_usedID, result);
+                let re_url = 'http://duobaozhinan.com/api/getbyusedid.json?usedid=' + usedID.toString() + '&quality=' + use.toString()
+                GM_xmlhttpRequest({
+                    method: "GET",
+                    url: re_url,
+                    headers: {
+                        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36',
+                        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+                        'Referer': 'http://duobaozhinan.com',
+                        'Cookie': 'Hm_lvt_c15140d06bc2de9496f59f92d2267b42=1578020885; Hm_lpvt_c15140d06bc2de9496f59f92d2267b42=1578560624',
+                    },
+                    onload: function (response) {
+                        if (response.status === 200) {
+                            let total_result = response.responseText;
+                            let total_list = total_result.split('"today":')[0];
+                            total_list = total_list.split('{"capped');
+                            let clog = "";
+                            if (total_list) {
+                                let total_chujia = 0;
+                                let minchujia = 9999;
+                                let m = 0;
+                                for(i in total_list) {
+                                    if (i > 0 && i < 11 && i < total_list.length) {
+                                        let re_chujia = /"endPrice":(\d+)/;
+                                        let chujia = get_re(re_chujia, total_list[i]);
+                                        total_chujia += parseInt(chujia);
+                                        if (parseInt(chujia) < minchujia){minchujia=parseInt(chujia)}
+                                        let re_yuanjia = /Price":(\d+)/;
+                                        let yuanjia = get_re(re_yuanjia, total_list[i]);
+                                        let re_ftime = /"endDateTime":"([-\d :]+)/;
+                                        let ftime = get_re(re_ftime, total_list[i]);
+                                        clog = clog + "<li>" + i + ". 成交价:" + chujia + "元  原价: " + yuanjia + "元</br>结束时间: " + ftime + "</li>";
+                                        m += 1;
+                                    }
+                                }
+                                average_chujia = total_chujia / m;
+                                $('#averigeprice').text(parseInt(average_chujia));
+                                $('#lowestprice').text(minchujia);
+                            }
+                            $('#clog').html(clog);
+                        } 
+                    }
+                })
+            } else {
+                GM_log('没有找到相关宝物');
             }
         }
     })
+
+    
+    // let re_url = 'http://duobaozhinan.com/api/getbyusedid.json?usedid=' + usedID + '&quality=' + use
+    // GM_xmlhttpRequest({
+    //     method: "GET",
+    //     url: re_url,
+    //     headers: {
+    //         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36',
+    //         'Accept': 'application/json, text/plain, */*',
+    //         'Referer': 'http://duobaozhinan.com',
+    //         'Cookie': 'Hm_lvt_c15140d06bc2de9496f59f92d2267b42=1578020885; Hm_lpvt_c15140d06bc2de9496f59f92d2267b42=1578555192',
+    //     },
+    //     onload: function (response) {
+    //         if (response.status === 200) {
+    //             let result = response.responseText;
+    //             GM_log(result)
+    //             // let re_averige = /平均成交价:(\d+.?\d+)/g;
+    //             // let averige_price = get_re(re_averige, result);
+    //             // let re_lowest = /最低成交价:(\d+)/g;
+    //             // let lowest_price = get_re(re_lowest, result);
+    //             // $('#averigeprice').text(averige_price);
+    //             // $('#lowestprice').text(lowest_price);
+    //             // // let re_tr = /<tr>([\w\W]*)<\/tr>/g
+    //             // // let tr_list = re_tr.exec(result)
+    //             // let mytable = $(response.response).find("#mytable tr");
+    //             // let clog = "";
+    //             // if (mytable.length >= 3) {
+    //             //     $(mytable).each(function (i) {
+    //             //         if (i > 0 && i < 6 && i < mytable.length - 1) {
+    //             //             let chujia = $(this).find('td')[3].innerText;
+    //             //             let yuanjia = $(this).find('td')[4].innerText;
+    //             //             let ftime = $(this).find('td')[5].innerText;
+    //             //             clog = clog + "<li>" + i + ". 成交价:" + chujia + "元  原价: " + yuanjia + "元</br>结束时间: " + ftime + "</li>";
+    //             //             i += 1;
+
+    //             //         }
+    //             //     })
+    //             // }
+    //             // $('#clog').html(clog);
+    //         }
+    //     }
+    // })
+
+    // let data = "shopName=" + title + "&use=" + use + "&productType=1&days=90&numbers=100"
+    // let rf_url = 'http://jd.svipnet.com/list.php';
+
+    // GM_xmlhttpRequest({
+    //     method: "POST",
+    //     url: rf_url,
+    //     headers: {
+    //         'User-Agent': 'Mozilla/4.0 (compatible) Greasemonkey',
+    //         'Accept': 'application/atom+xml,application/xml,text/xml',
+    //         'Content-type': 'application/x-www-form-urlencoded',
+    //     },
+    //     data: data,
+    //     onload: function (response) {
+    //         if (response.status === 200) {
+    //             let result = response.responseText;
+    //             let re_averige = /平均成交价:(\d+.?\d+)/g;
+    //             let averige_price = get_re(re_averige, result);
+    //             let re_lowest = /最低成交价:(\d+)/g;
+    //             let lowest_price = get_re(re_lowest, result);
+    //             $('#averigeprice').text(averige_price);
+    //             $('#lowestprice').text(lowest_price);
+    //             // let re_tr = /<tr>([\w\W]*)<\/tr>/g
+    //             // let tr_list = re_tr.exec(result)
+    //             let mytable = $(response.response).find("#mytable tr");
+    //             let clog = "";
+    //             if (mytable.length >= 3) {
+    //                 $(mytable).each(function (i) {
+    //                     if (i > 0 && i < 6 && i < mytable.length - 1) {
+    //                         let chujia = $(this).find('td')[3].innerText;
+    //                         let yuanjia = $(this).find('td')[4].innerText;
+    //                         let ftime = $(this).find('td')[5].innerText;
+    //                         clog = clog + "<li>" + i + ". 成交价:" + chujia + "元  原价: " + yuanjia + "元</br>结束时间: " + ftime + "</li>";
+    //                         i += 1;
+
+    //                     }
+    //                 })
+    //             }
+    //             $('#clog').html(clog);
+    //         }
+    //     }
+    // })
 }
 
 window.setTimeout(function () {
