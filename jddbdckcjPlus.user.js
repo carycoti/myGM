@@ -2,7 +2,7 @@
 // @name        参考出价
 // @description zh-cn
 // @namespace   http://tampermonkey.net/
-// @version     3.1.0
+// @version     3.2.0
 // @match       https://sell.paipai.com/auction-detail/*
 // @match       https://sell.paipai.com/auction-detail*
 // @match       https://item.jd.com/*
@@ -38,6 +38,13 @@ function get_re(re, some) {
     let matches = re.exec(some);
     if (matches && matches.length > 1) {
         return matches[1];
+    }
+}
+
+function get_res(re, some) {
+    let matches = re.exec(some);
+    if (matches && matches.length > 1) {
+        return matches;
     }
 }
 
