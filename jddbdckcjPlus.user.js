@@ -2,7 +2,7 @@
 // @name        参考出价
 // @description zh-cn
 // @namespace   http://tampermonkey.net/
-// @version     4.3.1
+// @version     4.3.2
 // @match       https://sell.paipai.com/auction-detail/*
 // @match       https://sell.paipai.com/auction-detail*
 // @match       https://item.jd.com/*
@@ -170,7 +170,7 @@ function main() {
                             let clog = "";
                             if (total_list) {
                                 let total_chujia = 0;
-                                let minchujia = 9999;
+                                let minchujia = 999999;
                                 let m = 0;
                                 for(let i in total_list) {
                                     if (i > 0 && i < 11 && i < total_list.length) {
