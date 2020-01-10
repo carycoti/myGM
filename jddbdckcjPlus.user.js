@@ -172,9 +172,9 @@ function main() {
                             let clog = "";
                             if (total_list) {
                                 let total_chujia = 0;
-                                let minchujia = 9999;
+                                let minchujia = 99999;
                                 let m = 0;
-                                for(i in total_list) {
+                                for(let i in total_list) {
                                     if (i > 0 && i < 11 && i < total_list.length) {
                                         let re_chujia = /"endPrice":(\d+)/;
                                         let chujia = get_re(re_chujia, total_list[i]);
