@@ -2,7 +2,7 @@
 // @name        参考出价
 // @description zh-cn
 // @namespace   http://tampermonkey.net/
-// @version     4.3.0
+// @version     4.3.1
 // @match       https://sell.paipai.com/auction-detail/*
 // @match       https://sell.paipai.com/auction-detail*
 // @match       https://item.jd.com/*
@@ -172,7 +172,7 @@ function main() {
                                 let total_chujia = 0;
                                 let minchujia = 9999;
                                 let m = 0;
-                                for(i in total_list) {
+                                for(let i in total_list) {
                                     if (i > 0 && i < 11 && i < total_list.length) {
                                         let re_chujia = /"endPrice":(\d+)/;
                                         let chujia = get_re(re_chujia, total_list[i]);
