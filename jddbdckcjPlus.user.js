@@ -2,7 +2,7 @@
 // @name        参考出价
 // @description zh-cn
 // @namespace   http://tampermonkey.net/
-// @version     4.3.0
+// @version     4.4.0
 // @match       https://sell.paipai.com/auction-detail/*
 // @match       https://sell.paipai.com/auction-detail*
 // @match       https://item.jd.com/*
@@ -21,7 +21,7 @@ var sdiv = $('<div>ID: <span id="itemid">0</span> | ' +
     '<hr>最近出价参考: </div>');
 sdiv.css({
     'position': 'fixed',
-    'top': '170px',
+    'top': '150px',
     'right': '10px',
     'width': '200px',
     'border': '2px solid #000',
@@ -132,7 +132,9 @@ function main() {
     let use = get_use(document.title);
     let price = $('span.n-price .price').text();
     price = parseInt(price);
-    
+    if (window.location.host == "item.jd.com") {
+        price = $("span.p-price").text().replace('￥', '');
+    }
     $('#clog').empty();
     $('#itemid').text(id);
     $('#40offpirce').text(parseInt(price * 0.6));
