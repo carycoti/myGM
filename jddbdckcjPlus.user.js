@@ -2,7 +2,7 @@
 // @name        参考出价
 // @description zh-cn
 // @namespace   http://tampermonkey.net/
-// @version     4.4.0
+// @version     4.5.0
 // @match       https://sell.paipai.com/auction-detail/*
 // @match       https://sell.paipai.com/auction-detail*
 // @match       https://item.jd.com/*
@@ -15,7 +15,8 @@
 
 var sdiv = $('<div>ID: <span id="itemid">0</span> | ' +
     '<button id="jbtn">复制ID</button>' +
-    '<hr>原价6折: <span id="40offpirce">0</span> </br>' +
+    '<hr>原价6折: <span id="40offpirce">0</span> | ' +
+    '<button id="sbtn">预约夺宝</button></br>' +
     '90天平均出价: <span id="averigeprice">0</span>  相当于<span id="a_discount">0</span>折</br> ' +
     '90天最低出价: <span id="lowestprice">0</span>  相当于<span id="l_discount">0</span>折</hr>' +
     '<hr>最近出价参考: </div>');
@@ -174,12 +175,14 @@ function main() {
                                 let total_chujia = 0;
                                 let minchujia = 99999;
                                 let m = 0;
-                                for(let i in total_list) {
+                                for (let i in total_list) {
                                     if (i > 0 && i < 11 && i < total_list.length) {
                                         let re_chujia = /"endPrice":(\d+)/;
                                         let chujia = get_re(re_chujia, total_list[i]);
                                         total_chujia += parseInt(chujia);
-                                        if (parseInt(chujia) < minchujia){minchujia=parseInt(chujia)}
+                                        if (parseInt(chujia) < minchujia) {
+                                            minchujia = parseInt(chujia)
+                                        }
                                         let re_yuanjia = /Price":(\d+)/;
                                         let yuanjia = get_re(re_yuanjia, total_list[i]);
                                         let re_ftime = /"endDateTime":"([-\d :]+)/;
@@ -199,7 +202,7 @@ function main() {
                                 $('#l_discount').text(l_discount);
                             }
                             $('#clog').html(clog);
-                        } 
+                        }
                     }
                 })
             } else {
@@ -208,7 +211,8 @@ function main() {
         }
     })
 
-    
+
+
     // let re_url = 'http://duobaozhinan.com/api/getbyusedid.json?usedid=' + usedID + '&quality=' + use
     // GM_xmlhttpRequest({
     //     method: "GET",
@@ -303,9 +307,33 @@ $('#jbtn').click(function () {
     GM_setClipboard(id);
 })
 
-// sbtn.click(function () {
-//     GM_setClipboard(document.cookie);
-// })
+$("#sbtn").click(function () {
+    let id = get_id(window.location.href);
+    let data = "auctionId=" + id + "&entryid=p0020002app190123&p=6"
+    let rf_url = 'https://used-api.paipai.com/auction/add-reminder';
+    GM_xmlhttpRequest({
+        method: "POST",
+        url: rf_url,
+        headers: {
+            'User-Agent': '2.1.5;JDAPPERSHOU_IOS;Mozilla/5.0 (iPhone; CPU iPhone OS 12_4_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148',
+            'Accept': 'application/json, text/javascript, */*; q=0.01',
+            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        },
+        data: data,
+        onload: function (response) {
+            if (response.status === 200) {
+                let result = response.responseText;
+                let code = get_re(/"code":(\d+)/g, result)
+                let message = get_re(/"message":"(.+)"/g, result)
+                if (code != 200) {
+                    GM_notification('预约失败: ' + message);
+                } else {
+                    GM_notification('预约成功')
+                }
+            }
+        }
+    })
+})
 
 let dragging = false;
 let iX, iY;
