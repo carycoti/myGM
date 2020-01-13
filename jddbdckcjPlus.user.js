@@ -2,7 +2,7 @@
 // @name        参考出价
 // @description zh-cn
 // @namespace   http://tampermonkey.net/
-// @version     4.5.0
+// @version     4.5.1
 // @match       https://sell.paipai.com/auction-detail/*
 // @match       https://sell.paipai.com/auction-detail*
 // @match       https://item.jd.com/*
@@ -344,7 +344,7 @@ sdiv.mousedown(function (e) {
 });
 document.onmousemove = function (e) {
     if (dragging) {
-        let e = e || window.event;
+        e = e || window.event;
         let oX = e.clientX - iX;
         let oY = e.clientY - iY;
         sdiv.css({
