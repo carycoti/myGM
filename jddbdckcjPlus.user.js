@@ -2,10 +2,10 @@
 // @name        参考出价
 // @description zh-cn
 // @namespace   http://tampermonkey.net/
-// @version     4.5.1
+// @version     5.0.0
 // @match       https://sell.paipai.com/auction-detail/*
 // @match       https://sell.paipai.com/auction-detail*
-// @match       https://item.jd.com/*
+// @match       https://m.paipai.com/m/raise_auction*
 // @require     https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
 // @grant       GM_log
 // @grant       GM_xmlhttpRequest
@@ -16,9 +16,9 @@
 var sdiv = $('<div>ID: <span id="itemid">0</span> | ' +
     '<button id="jbtn">复制ID</button>' +
     '<hr>原价6折: <span id="40offpirce">0</span> | ' +
-    '<button id="sbtn">预约夺宝</button></br>' +
-    '90天平均出价: <span id="averigeprice">0</span>  相当于<span id="a_discount">0</span>折</br> ' +
-    '90天最低出价: <span id="lowestprice">0</span>  相当于<span id="l_discount">0</span>折</hr>' +
+    '<button id="sbtn">链接</button></br>' +
+    '平均出价: <span id="averigeprice">0</span>  相当于<span id="a_discount">0</span>折</br> ' +
+    '最低出价: <span id="lowestprice">0</span>  相当于<span id="l_discount">0</span>折</hr>' +
     '<hr>最近出价参考: </div>');
 sdiv.css({
     'position': 'fixed',
@@ -50,15 +50,15 @@ function get_res(re, some) {
 }
 
 function get_id(url) {
-    let re = /auction-detail\/(\d+)/g;
+    let re = /(auction-detail\/|auctionId=)(\d+)/g;
     let matches = re.exec(url);
     if (matches && matches.length > 1) {
-        return matches[1];
+        return matches[2];
     }
 }
 
 function get_title(title) {
-    let re = /】(.+)【/g;
+    let re = /】(.+)(【|$)/g;
     let matches = re.exec(title);
     if (matches && matches.length > 1) {
         return matches[1];
@@ -127,15 +127,26 @@ function get_by_usedid(usedID, use = 1) {
 }
 
 function main() {
-    let id = get_id(window.location.href);
-    let title = get_title(document.title);
+    let main_href = window.location.href;   
+    let id = get_id(main_href);
+    let f_title = $('div.sku-name, div.basic-info div.product-name').text();
+    let title = get_title(f_title);
     title = title.replace(" ", "%20").replace("|", "")
-    let use = get_use(document.title);
-    let price = $('span.n-price .price').text();
+    let use = get_use(f_title);
+    let price = $('span.n-price .price, span.origin-value').text();
+    price = price.replace('￥', '');
     price = parseInt(price);
-    if (window.location.host == "item.jd.com") {
-        price = $("span.p-price").text().replace('￥', '');
-    }
+    if (window.location.host == "m.paipai.com"){
+        $('#sbtn').text('打开PC链接');
+        $("#sbtn").click(function () {
+            window.location.href="https://sell.paipai.com/auction-detail/" + id;
+        })
+    }else{
+        $('#sbtn').text('打开手机链接');
+        $("#sbtn").click(function () {
+            window.location.href="https://m.paipai.com/m/raise_auction.html?auctionId=" + id + "&entryid=&scene=null";
+        })
+    };
     $('#clog').empty();
     $('#itemid').text(id);
     $('#40offpirce').text(parseInt(price * 0.6));
@@ -307,33 +318,35 @@ $('#jbtn').click(function () {
     GM_setClipboard(id);
 })
 
-$("#sbtn").click(function () {
-    let id = get_id(window.location.href);
-    let data = "auctionId=" + id + "&entryid=p0020002app190123&p=6"
-    let rf_url = 'https://used-api.paipai.com/auction/add-reminder';
-    GM_xmlhttpRequest({
-        method: "POST",
-        url: rf_url,
-        headers: {
-            'User-Agent': '2.1.5;JDAPPERSHOU_IOS;Mozilla/5.0 (iPhone; CPU iPhone OS 12_4_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148',
-            'Accept': 'application/json, text/javascript, */*; q=0.01',
-            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        },
-        data: data,
-        onload: function (response) {
-            if (response.status === 200) {
-                let result = response.responseText;
-                let code = get_re(/"code":(\d+)/g, result)
-                let message = get_re(/"message":"(.+)"/g, result)
-                if (code != 200) {
-                    GM_notification('预约失败: ' + message);
-                } else {
-                    GM_notification('预约成功')
-                }
-            }
-        }
-    })
-})
+// $("#sbtn").click(function () {
+//     let id = get_id(window.location.href);
+//     let data = "auctionId=" + id + "&entryid=p0020002app190123&p=6"
+//     let rf_url = 'https://used-api.paipai.com/auction/add-reminder';
+//     GM_xmlhttpRequest({
+//         method: "POST",
+//         url: rf_url,
+//         headers: {
+//             'User-Agent': '2.1.5;JDAPPERSHOU_IOS;Mozilla/5.0 (iPhone; CPU iPhone OS 12_4_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148',
+//             'Accept': 'application/json, text/javascript, */*; q=0.01',
+//             'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+//         },
+//         data: data,
+//         onload: function (response) {
+//             if (response.status === 200) {
+//                 let result = response.responseText;
+//                 let code = get_re(/"code":(\d+)/g, result)
+//                 let message = get_re(/"message":"(.+)"/g, result)
+//                 if (code != 200) {
+//                     GM_notification('预约失败: ' + message);
+//                 } else {
+//                     GM_notification('预约成功')
+//                 }
+//             }
+//         }
+//     })
+// })
+
+
 
 let dragging = false;
 let iX, iY;
