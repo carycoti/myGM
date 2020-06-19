@@ -11,6 +11,16 @@
 // @grant        GM_notification
 // ==/UserScript==
 
+function get_number(txt) {
+    let re = /([\d,.]+)/g;
+    let matches = re.exec(txt);
+    if (matches && matches.length > 1) {
+		let rst = matches[1];
+		rst = rst.replace(/,/g, "")
+        return rst;
+    }
+}
+
 function dom(tag, attr, inner) {
 	let el = document.createElement(tag);
 	for (let key in attr) {
@@ -33,19 +43,24 @@ function get_value() {
 	$("tbody.ant-table-tbody tr").each(function () {
 		// 搜索指数
 		let search_index = $(this).find("td")[2].innerText;
+		search_index = get_number(search_index)
 		GM_log("搜索指数为: " + search_index)
 		// 供需指数
 		let supply_and_demand_index = $(this).find("td")[5].innerText;
+		supply_and_demand_index = get_number(supply_and_demand_index)
 		GM_log("供需指数为: " + supply_and_demand_index)
 		// supply_and_demand_index = supply_and_demand_index.replace("%", "");
 		// supply_and_demand_index = supply_and_demand_index / 100;
 		// 支付金额占比
 		let rate_of_payment = $(this).find("td")[6].innerText;
-		rate_of_payment = rate_of_payment.replace("%", "");
+		// rate_of_payment = rate_of_payment.replace("%", "");
+		// rate_of_payment = rate_of_payment / 100;
+		rate_of_payment = get_number(rate_of_payment);
 		rate_of_payment = rate_of_payment / 100;
 		GM_log("支付金额占比为: " + rate_of_payment)
 		// 客单价
 		let customer_price = $(this).find("td")[7].innerText;
+		customer_price = get_number(customer_price)
 		GM_log("客单价为: " + customer_price)
 		// 购买力
 		let purchase_power = rate_of_payment / search_index;
@@ -66,7 +81,7 @@ function main() {
 			add_th();
 			get_value()
 		}, 1500);
-		$("a.common-picker-header").click(function () {
+		$("a.common-picker-header, ul.ant-pagination, button.oui-canary-btn").click(function () {
 			window.setTimeout(function () {
 				add_th();
 				get_value()
