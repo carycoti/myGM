@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         通哥数据分析
+// @name         数据纵横分析
 // @namespace    http://tampermonkey.net/
-// @version      1.0.0
+// @version      1.0.1
 // @description  通哥数据分析-市场综合评分
 // @author       Kung
 // @match        https://sycm.aliexpress.com/mc/MarketOverview*
