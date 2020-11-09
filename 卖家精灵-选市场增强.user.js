@@ -58,6 +58,7 @@ function set_new_product_rate(domEle, num1, num2){
 	top_monthly_sales = top_monthly_sales.replace(",", "");
 	let sales_rate = monthly_sales / top_monthly_sales * 100;
 	sales_rate = sales_rate.toFixed(2);
+	sales_rate = sales_rate + "%";
 	// 创建相应的div
 	let score_div = dom("div", {
 		"class": "mr-2 text-center text-muted text-rate"
