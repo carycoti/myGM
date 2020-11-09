@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         卖家精灵-选市场增强
 // @namespace    http://tampermonkey.net/
-// @version      1.1.0
+// @version      1.2.0
 // @description  卖家精灵-选市场增强
 // @author       Kung
 // @match        https://www.sellersprite.com/v2/market-research
@@ -35,9 +35,9 @@ function set_rate(domEle, num){
 	let sales = $(domEle).find("td div.td")[num];
 	let my_sales = $(sales).find("div.text-center");
 	let monthly_sales = my_sales[0].innerText;
-	monthly_sales = monthly_sales.replace(",", "");
+	monthly_sales = monthly_sales.replace(/,/g, "");
 	let top_monthly_sales = my_sales[1].innerText;
-	top_monthly_sales = top_monthly_sales.replace(",", "");
+	top_monthly_sales = top_monthly_sales.replace(/,/g, "");
 	let sales_rate = top_monthly_sales / monthly_sales;
 	sales_rate = sales_rate.toFixed(2);
 	// 创建相应的div
@@ -51,11 +51,11 @@ function set_new_product_rate(domEle, num1, num2){
 	let sales = $(domEle).find("td div.td")[num1];
 	let my_sales = $(sales).find("div.text-center");
 	let monthly_sales = my_sales[1].innerText;
-	monthly_sales = monthly_sales.replace(",", "");
+	monthly_sales = monthly_sales.replace(/,/g, "");
 	let sales2 = $(domEle).find("td div.td")[num2];
 	let my_sales2 = $(sales2).find("div.text-center");
 	let top_monthly_sales = my_sales2[0].innerText;
-	top_monthly_sales = top_monthly_sales.replace(",", "");
+	top_monthly_sales = top_monthly_sales.replace(/,/g, "");
 	let sales_rate = monthly_sales / top_monthly_sales * 100;
 	sales_rate = sales_rate.toFixed(2);
 	sales_rate = sales_rate + "%";
