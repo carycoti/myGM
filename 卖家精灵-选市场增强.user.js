@@ -31,21 +31,47 @@ function dom(tag, attr, inner) {
 	return el;
 }
 
+function set_rate(domEle, num){
+	let sales = $(domEle).find("td div.td")[num];
+	let my_sales = $(sales).find("div.text-center");
+	let monthly_sales = my_sales[0].innerText;
+	monthly_sales = monthly_sales.replace(",", "");
+	let top_monthly_sales = my_sales[1].innerText;
+	top_monthly_sales = top_monthly_sales.replace(",", "");
+	let sales_rate = top_monthly_sales / monthly_sales;
+	sales_rate = sales_rate.toFixed(2);
+	// 创建相应的div
+	let score_div = dom("div", {
+		"class": "mr-2 text-center text-muted text-rate"
+	}, sales_rate);
+	$(sales).append(score_div);
+}
+
+function set_new_product_rate(domEle, num1, num2){
+	let sales = $(domEle).find("td div.td")[num1];
+	let my_sales = $(sales).find("div.text-center");
+	let monthly_sales = my_sales[1].innerText;
+	monthly_sales = monthly_sales.replace(",", "");
+	let sales2 = $(domEle).find("td div.td")[num2];
+	let my_sales2 = $(sales2).find("div.text-center");
+	let top_monthly_sales = my_sales2[0].innerText;
+	top_monthly_sales = top_monthly_sales.replace(",", "");
+	let sales_rate = monthly_sales / top_monthly_sales * 100;
+	sales_rate = sales_rate.toFixed(2);
+	// 创建相应的div
+	let score_div = dom("div", {
+		"class": "mr-2 text-center text-muted text-rate"
+	}, sales_rate);
+	$(sales2).append(score_div);
+}
+
 function get_rate(){
 	$(document).ready(function () {
-		$('#table-condition-search tr').each(function(i){
+		$('#table-condition-search tbody tr').each(function(i){
 		   if (i%3==0){
-			   let sales = $(this).find("td div.td")[4];
-			   let my_sales = $(sales).find("div.text-center");
-			   let monthly_sales = my_sales[0].innerText;
-			   let top_monthly_sales = my_sales[1].innerText;
-			   let sales_rate = top_monthly_sales / monthly_sales;
-			   sales_rate = sales_rate.toFixed(2);
-			   // 创建相应的div
-			   let score_div = dom("div", {
-				   "class": "mr-2 text-center text-muted text-rate"
-			   }, sales_rate);
-			   $(sales).append(score_div);
+			   set_rate(this, 4);
+			   set_rate(this, 5);
+			   set_new_product_rate(this, 12, 13);
 		   }
 		});
 	});
