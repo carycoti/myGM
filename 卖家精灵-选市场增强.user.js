@@ -69,9 +69,12 @@ function get_rate(){
 	$(document).ready(function () {
 		$('#table-condition-search tbody tr').each(function(i){
 		   if (i%3==0){
-			   set_rate(this, 4);
-			   set_rate(this, 5);
-			   set_new_product_rate(this, 12, 13);
+			   try{
+				set_rate(this, 4);
+				set_rate(this, 5);
+				set_new_product_rate(this, 12, 13);
+			   }
+			   catch(err){};
 		   }
 		});
 	});
