@@ -11,6 +11,7 @@
 // @grant        GM_notification
 // ==/UserScript==
 
+
 function get_number(txt) {
     let re = /([\d,.]+)/g;
     let matches = re.exec(txt);
