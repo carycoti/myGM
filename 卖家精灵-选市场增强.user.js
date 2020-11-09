@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         卖家精灵-选市场增强
 // @namespace    http://tampermonkey.net/
-// @version      1.0.1
+// @version      1.1.0
 // @description  卖家精灵-选市场增强
 // @author       Kung
 // @match        https://www.sellersprite.com/v2/market-research
