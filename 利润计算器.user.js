@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         利润计算器
 // @namespace    http://tampermonkey.net/
-// @version      1.0.1
+// @version      1.0.2
 // @description  利润计算器
 // @author       Kung
 // @match        https://members.helium10.com/black-box*
@@ -89,13 +89,13 @@ function get_rate(){
 		$('#bb-table tbody tr').each(function(i){
 		    if (i%2==0){
 				try{
-					let asin = $(this).find("div.mt-1").innerText;
+					let asin = $(this).find("div.mt-1")[0].innerText;
 					margin = get_info_by_asin(asin);
 			   }
 				catch(err){};
 		    }
 		    else{
-				let my_div = $(this).find("td div.text-center");
+				let my_div = $(this).find("td div.text-center")[0];
 				let margin_html = '<span class="year-sales text-rate">Margin: <strong>' + margin + '</strong></span>'
 				// 创建相应的div
 				let score_div = dom("div", {
