@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         利润计算器
 // @namespace    http://tampermonkey.net/
-// @version      1.1.0
+// @version      1.2.0
 // @description  利润计算器
 // @author       Kung
 // @match        https://members.helium10.com/black-box*
@@ -52,7 +52,7 @@ function get_info_by_asin(asin) {
 					let amount = item_info.amount;
 					let fbaFee = item_info.fbaFee;
 					let storageFee = item_info.storageFee;
-					let listFee = 0.3;
+					let listFee = 0;
 					let referralFee = amount * 0.15;
 					let UnitManufacturingFee = amount * 0.2;
 					let height = item_info.height;
@@ -132,8 +132,11 @@ function get_rate() {
 									let my_div = $(my_tr).find("td div.text-center")[0];
 									let margin_html = '<span class="year-sales">Margin: <strong><span class="text-rate">' + margin + '</span></strong></span>'
 									// 创建相应的div
+									if ($(my_div).find(".set-margin")){
+										$($(my_div).find(".set-margin")[0]).remove();
+									}
 									let score_div = dom("div", {
-										"class": "col-2 px-3"
+										"class": "col-2 px-3 set-margin"
 									}, margin_html);
 									my_div.prepend(score_div);
 								}
@@ -146,17 +149,25 @@ function get_rate() {
 	});
 }
 
+function remove_margin(){
+	$(".set-margin").each(function(){
+		$(this).remove();
+	})
+}
+
 function main() {
 	$(document).ready(function () {
-		// $(".action-load-selected-project").click(function () {
-		// 	window.setTimeout(function () {
-		// 		get_rate();
-		// 	}, 10000);
-		// });
-		$(".action-load-selected-project,.page-item,#w0,.pagination,.page-link,.action-search").on("click", function(){
+		$(".action-load-selected-project").click(function () {
 			window.setTimeout(function () {
+				remove_margin();
 				get_rate();
-			}, 10000);
+			}, 15000);
+		});
+		$("body").on("click", "nav,.action-load-selected-project,.page-item,#w0,.pagination,.page-link,.action-search", function(){
+			window.setTimeout(function () {
+				remove_margin();
+				get_rate();
+			}, 1500);
 		});
 	});
 }
@@ -164,4 +175,4 @@ function main() {
 GM_log(window.setTimeout(function () {
 	add_readfree_style();
 	main();
-}, 10000));
+}, 1500));
