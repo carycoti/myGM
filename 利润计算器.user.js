@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         利润计算器
 // @namespace    http://tampermonkey.net/
-// @version      1.2.0
+// @version      1.2.1
 // @description  利润计算器
 // @author       Kung
 // @match        https://members.helium10.com/black-box*
+// @match        https://members.helium10.com/black-box/my-list*
 // @require      https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
 // @resource     custom_css https://cdn.jsdelivr.net/gh/carycoti/myGM@master/style/style.css
 // @grant        GM_log
@@ -157,6 +158,10 @@ function remove_margin(){
 
 function main() {
 	$(document).ready(function () {
+		window.setTimeout(function () {
+			remove_margin();
+			get_rate();
+		}, 15000);
 		$(".action-load-selected-project").click(function () {
 			window.setTimeout(function () {
 				remove_margin();
