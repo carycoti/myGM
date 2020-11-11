@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         利润计算器
 // @namespace    http://tampermonkey.net/
-// @version      1.2.3
+// @version      1.2.5
 // @description  利润计算器
 // @author       Kung
 // @match        https://members.helium10.com/black-box*
@@ -39,7 +39,7 @@ function get_rate() {
 			if (i % 2 == 0) {
 				try {
 					let my_div = $(this).find("div.mr-3 > div.mt-1")[0];
-					let asin = $(this).find("div.mr-3 > div.mt-1")[0].innerText;
+					let asin = my_div.innerText;
                     // 默认为美国站: marketplaceId=ATVPDKIKX0DER 其他站点可以改成对应的marketplaceId, 参考以下链接:
                     // http://docs.developer.amazonservices.com/zh_CN/dev_guide/DG_Endpoints.html
 					let api_url = "https://das-server.tool4seller.cn/ap/fba/calculate?marketplaceId=ATVPDKIKX0DER&asin=" + asin;
