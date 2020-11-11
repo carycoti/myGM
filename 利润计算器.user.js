@@ -12,6 +12,7 @@
 // @grant        GM_notification
 // @grant        GM_getResourceText
 // @grant        GM_addStyle
+// @grant        GM_xmlhttpRequest
 // ==/UserScript==
 
 function add_readfree_style() {
@@ -73,6 +74,7 @@ function get_info_by_asin(asin){
 					};
 					let profit = amount - fbaFee - storageFee - listFee - referralFee - UnitManufacturingFee - freightFee; 
 					let margin = profit / amount * 100;
+					margin = margin.toFixed(2);
 					margin = margin + "%";
 					return margin
 				}
@@ -107,12 +109,12 @@ function get_rate(){
 
 function main() {
 	$(document).ready(function () {
-		$("button.action-load-selected-project ul.pagination").click(function () {
+		$(".action-load-selected-project, a.page-link").click(function () {
 			window.setTimeout(function () {
 				get_rate();
-			}, 1500);
+			}, 10000);
 		});
 	});
 }
 
-GM_log(window.setTimeout(function(){main();}, 1500));
+GM_log(window.setTimeout(function(){main();}, 10000));
