@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         利润计算器
 // @namespace    http://tampermonkey.net/
-// @version      1.2.1
+// @version      1.2.2
 // @description  利润计算器
 // @author       Kung
 // @match        https://members.helium10.com/black-box*
@@ -88,7 +88,7 @@ function get_rate() {
 		$('#bb-table tbody tr').each(function (i) {
 			if (i % 2 == 0) {
 				try {
-					let asin = $(this).find("div.mt-1")[0].innerText;
+					let asin = $(this).find("div.mr-3 > div.mt-1")[0].innerText;
 					let api_url = "https://das-server.tool4seller.cn/ap/fba/calculate?marketplaceId=ATVPDKIKX0DER&asin=" + asin;
 					GM_xmlhttpRequest({
 						method: "GET",
