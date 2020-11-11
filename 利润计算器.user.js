@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         利润计算器
 // @namespace    http://tampermonkey.net/
-// @version      1.0.0
+// @version      1.0.1
 // @description  利润计算器
 // @author       Kung
 // @match        https://members.helium10.com/black-box*
@@ -81,7 +81,7 @@ function get_info_by_asin(asin){
 	})
 }
 
-function main(){
+function get_rate(){
 	$(document).ready(function () {
 		let margin = 0;
 		$('#bb-table tbody tr').each(function(i){
@@ -101,6 +101,16 @@ function main(){
 				}, margin_html);
 				my_div.prepend(score_div);
 			}
+		});
+	});
+}
+
+function main() {
+	$(document).ready(function () {
+		$("button.action-load-selected-project ul.pagination").click(function () {
+			window.setTimeout(function () {
+				get_rate();
+			}, 1500);
 		});
 	});
 }
