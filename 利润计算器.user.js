@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         利润计算器
 // @namespace    http://tampermonkey.net/
-// @version      1.2.5
+// @version      1.2.6
 // @description  利润计算器
 // @author       Kung
 // @match        https://members.helium10.com/black-box*
@@ -91,6 +91,7 @@ function get_rate() {
 										"class": "text-center mt-1 set-margin"
 									}, margin_html);
 									my_div.append(score_div);
+									let monthlyRevenue = $(this).find("monthlyRevenue-column")
 								}
 							}
 						}
