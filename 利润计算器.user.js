@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         H10 PLUS
 // @namespace    http://tampermonkey.net/
-// @version      1.4.0
+// @version      1.3.0
 // @description  H10 PLUS
 // @author       Kung
 // @match        https://members.helium10.com/black-box*
@@ -71,11 +71,12 @@ function get_rate() {
 					let asin = my_div.innerText;
 					let monthlyRevenue = monthlyRevenueTD.innerText;
 					monthlyRevenue = monthlyRevenue.replace(/[$,]/g, "");
-					let mediaBodyH5 = $(this).find(".media-body h5")[0];
+					let mediaBodyTd = $(this).find(".media-body")[0];
+					let mediaBodyH5 = $(mediaBodyTd).find("h5")[0];
 					let title = mediaBodyH5.innerText;
 					title = title.replace(/&/g, "");
-					if ($(this).find(".set-product-title")) {
-						$($(this).find(".set-product-title")[0]).remove();
+					if ($(mediaBodyTd).find(".set-product-title")) {
+						$($(mediaBodyTd).find(".set-product-title")[0]).remove();
 					}
 					fanyi(title, mediaBodyH5);
 					// 默认为美国站: marketplaceId=ATVPDKIKX0DER 其他站点可以改成对应的marketplaceId, 参考以下链接:
