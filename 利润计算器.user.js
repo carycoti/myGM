@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         利润计算器
 // @namespace    http://tampermonkey.net/
-// @version      1.2.6
+// @version      1.3.0
 // @description  利润计算器
 // @author       Kung
 // @match        https://members.helium10.com/black-box*
@@ -39,9 +39,14 @@ function get_rate() {
 			if (i % 2 == 0) {
 				try {
 					let my_div = $(this).find("div.mr-3 > div.mt-1")[0];
+					let numberOfSellersTD = $(this).find(".numberOfSellers-column")[0];
+					let numberOfSellers = numberOfSellersTD.innerText;
+					let monthlyRevenueTD = $(this).find(".monthlyRevenue-column")[0];
 					let asin = my_div.innerText;
-                    // 默认为美国站: marketplaceId=ATVPDKIKX0DER 其他站点可以改成对应的marketplaceId, 参考以下链接:
-                    // http://docs.developer.amazonservices.com/zh_CN/dev_guide/DG_Endpoints.html
+					let monthlyRevenue = monthlyRevenueTD.innerText;
+					monthlyRevenue = monthlyRevenue.replace(/[$,]/g, "");
+					// 默认为美国站: marketplaceId=ATVPDKIKX0DER 其他站点可以改成对应的marketplaceId, 参考以下链接:
+					// http://docs.developer.amazonservices.com/zh_CN/dev_guide/DG_Endpoints.html
 					let api_url = "https://das-server.tool4seller.cn/ap/fba/calculate?marketplaceId=ATVPDKIKX0DER&asin=" + asin;
 					GM_xmlhttpRequest({
 						method: "GET",
@@ -79,19 +84,28 @@ function get_rate() {
 										freightFee = weight * EstFreightCost;
 									};
 									let profit = amount - fbaFee - storageFee - listFee - referralFee - UnitManufacturingFee - freightFee;
-									let margin = profit / amount * 100;
-									margin = margin.toFixed(2);
+									let margin_num = profit / amount * 100;
+									let margin = margin_num.toFixed(2);
 									margin = margin + "%";
-									let margin_html = '<strong>Margin: <span class="text-rate">' + margin + '</span></strong>'
+									let monthlyProfit = monthlyRevenue * margin_num / numberOfSellers / 100;
+									monthlyProfit = monthlyProfit.toFixed(2);
 									// 创建相应的div
-									if ($(my_div).find(".set-margin")){
+									if ($(my_div).find(".set-margin")) {
 										$($(my_div).find(".set-margin")[0]).remove();
 									}
+									let margin_html = '<strong>Margin: <span class="text-rate">' + margin + '</span></strong>'
 									let score_div = dom("div", {
 										"class": "text-center mt-1 set-margin"
 									}, margin_html);
 									my_div.append(score_div);
-									let monthlyRevenue = $(this).find("monthlyRevenue-column")
+									if ($(monthlyRevenueTD).find(".set-profit")) {
+										$($(monthlyRevenueTD).find(".set-profit")[0]).remove();
+									}
+									let profit_html = '<strong><span class="text-rate">$' + monthlyProfit + '</span></strong>'
+									let profit_div = dom("div", {
+										"class": "text-center mt-1 set-profit"
+									}, profit_html);
+									$(monthlyRevenueTD).append(profit_div);
 								}
 							}
 						}
@@ -102,10 +116,13 @@ function get_rate() {
 	});
 }
 
-function remove_margin(){
-	$(".set-margin").each(function(){
+function remove_margin() {
+	$(".set-margin").each(function () {
 		$(this).remove();
-	})
+	});
+	$(".set-profit").each(function () {
+		$(this).remove();
+	});
 }
 
 function main() {
@@ -113,14 +130,14 @@ function main() {
 		window.setTimeout(function () {
 			remove_margin();
 			get_rate();
-		}, 15000);
+		}, 1500);
 		$(".action-load-selected-project").click(function () {
 			window.setTimeout(function () {
 				remove_margin();
 				get_rate();
-			}, 15000);
+			}, 1500);
 		});
-		$("body").on("click", "nav,.action-load-selected-project,.page-item,#w0,.pagination,.page-link,.action-search", function(){
+		$("body").on("click", "nav,.action-load-selected-project,.page-item,#w0,.pagination,.page-link,.action-search", function () {
 			window.setTimeout(function () {
 				remove_margin();
 				get_rate();
