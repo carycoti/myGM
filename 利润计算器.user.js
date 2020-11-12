@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         利润计算器
+// @name         H10 PLUS
 // @namespace    http://tampermonkey.net/
-// @version      1.3.0
-// @description  利润计算器
+// @version      1.4.0
+// @description  H10 PLUS
 // @author       Kung
 // @match        https://members.helium10.com/black-box*
 // @match        https://members.helium10.com/black-box/my-list*
@@ -33,6 +33,32 @@ function dom(tag, attr, inner) {
 	return el;
 }
 
+function fanyi(text, eldom) {
+	let app_kid = "5fad1a6e76c3c";
+	let app_key = "bc5cad061aab405e1b1331cf77a025d8";
+	let bath_url = "https://api.yeekit.com/dotranslate.php?from=en&to=zh&app_kid=";
+	let api_url = bath_url + app_kid + "&app_key=" + app_key + "&text=" + text;
+	GM_xmlhttpRequest({
+		method: "GET",
+		url: api_url,
+		headers: {
+			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36',
+			'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+			'Cookie': '_ga=GA1.2.107451784.1605067144; _gid=GA1.2.382883749.1605067144; __root_domain_v=.tool4seller.cn; _qddaz=QD.2zmis3.ispgxl.khcvjii2; Hm_lvt_569f3a439a97ca4944bfec5572da3369=1605067145,1605068601,1605070250; Hm_lpvt_569f3a439a97ca4944bfec5572da3369=1605071825',
+		},
+		onload: function (response) {
+			if (response.status === 200) {
+				let result = JSON.parse(response.responseText);
+				result = result.translation[0].translated[0].text;
+				let h6_html = dom("div", {
+					"class": "set-product-title"
+				}, result);
+				eldom.after(h6_html);
+			}
+		}
+	});
+}
+
 function get_rate() {
 	$(document).ready(function () {
 		$('#bb-table tbody tr').each(function (i) {
@@ -45,6 +71,13 @@ function get_rate() {
 					let asin = my_div.innerText;
 					let monthlyRevenue = monthlyRevenueTD.innerText;
 					monthlyRevenue = monthlyRevenue.replace(/[$,]/g, "");
+					let mediaBodyH5 = $(this).find(".media-body h5")[0];
+					let title = mediaBodyH5.innerText;
+					title = title.replace(/&/g, "");
+					if ($(this).find(".set-product-title")) {
+						$($(this).find(".set-product-title")[0]).remove();
+					}
+					fanyi(title, mediaBodyH5);
 					// 默认为美国站: marketplaceId=ATVPDKIKX0DER 其他站点可以改成对应的marketplaceId, 参考以下链接:
 					// http://docs.developer.amazonservices.com/zh_CN/dev_guide/DG_Endpoints.html
 					let api_url = "https://das-server.tool4seller.cn/ap/fba/calculate?marketplaceId=ATVPDKIKX0DER&asin=" + asin;
@@ -121,6 +154,9 @@ function remove_margin() {
 		$(this).remove();
 	});
 	$(".set-profit").each(function () {
+		$(this).remove();
+	});
+	$(".set-product-title").each(function () {
 		$(this).remove();
 	});
 }
