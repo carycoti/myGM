@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         H10 PLUS
 // @namespace    http://tampermonkey.net/
-// @version      1.4.0
+// @version      1.4.1
 // @description  H10 PLUS
 // @author       Kung
 // @match        https://members.helium10.com/black-box*
@@ -74,7 +74,7 @@ function get_rate() {
 					let mediaBodyTd = $(this).find(".media-body")[0];
 					let mediaBodyH5 = $(mediaBodyTd).find("h5")[0];
 					let title = mediaBodyH5.innerText;
-					title = title.replace(/&/g, "");
+					title = title.replace(/[#$&*=\?%']/g, "");
 					if ($(this).find(".h10-plus").length==0){
 						$(this).append(dom("div", {"class": "h10-plus"}, ""));
 						fanyi(title, mediaBodyH5);
