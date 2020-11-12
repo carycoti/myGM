@@ -135,7 +135,7 @@ function main() {
 			window.setTimeout(function () {
 				remove_margin();
 				get_rate();
-			}, 1500);
+			}, 15000);
 		});
 		$("body").on("click", "nav,.action-load-selected-project,.page-item,#w0,.pagination,.page-link,.action-search", function () {
 			window.setTimeout(function () {
