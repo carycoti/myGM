@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         H10 PLUS
 // @namespace    http://tampermonkey.net/
-// @version      1.4.1
+// @version      1.4.2
 // @description  H10 PLUS
 // @author       Kung
 // @match        https://members.helium10.com/black-box*
@@ -147,7 +147,7 @@ function get_rate() {
 function main() {
 	$(document).ready(function () {
 		get_rate();
-		$("body").on("click", "nav,.action-load-selected-project,.page-item,#w0,.pagination,.page-link,.action-search", function () {
+		$("body").on("click", "nav,.action-load-selected-project,.page-item,#w0,.pagination,.page-link,.action-search,#sort", function () {
 			window.setTimeout(function () {
 				get_rate();
 			}, 8000);
