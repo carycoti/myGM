@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         删除已过期的滴答任务
 // @namespace    http://tampermonkey.net/
-// @version      1.1.0
+// @version      1.1.1
 // @description  删除已过期的滴答任务
 // @author       Kung
 // @match        *.dida365.com/*
@@ -15,7 +15,7 @@
 
 function main() {
     $(document).ready(function () {
-        $("div.l-task-bg").each(function () {
+        $("div.l-task").each(function () {
             if ($(this).find(".duedate-overdue").length > 0) {
                 $(this).find(".check-toggle").click();
             }
@@ -25,7 +25,7 @@ function main() {
 
 GM_log(window.setTimeout(function () {
     main();
-    $(".check-toggle").click(function () {
+    $("#task-list-content").scroll(function () {
     window.setTimeout(function () {
       main();
     }, 5000);
