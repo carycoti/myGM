@@ -2,7 +2,7 @@
 // @name        FBA利润计算器
 // @description zh-cn
 // @namespace   http://tampermonkey.net/
-// @version     1.0.2
+// @version     1.0.3
 // @match       https://www.amazon.co.jp/*dp/*
 // @match       https://www.amazon.com/*dp/*
 // @match       https://www.amazon.com.au/*dp/*
@@ -23,7 +23,8 @@ var sdiv = $('<div id="fbaprocal">ID: <span id="itemid">0</span>  ' +
     '重量 : <span style="text-align:right;"><input type="text" name="weight" id="weight" style="width:80px;height:20px;" value=0>千克</span></br>' +
     '售价 : <span style="text-align:right;">$ <input type="text" name="price" id="myprice" style="width:80px;height:20px;" value=0></span></br> ' +
     '成本价 : <span style="text-align:right;">$ <input type="text" name="costprice" id="costprice" style="width:80px;height:20px;" value=0></span></br> ' +
-    '头程(/kg): <span style="text-align:right;">$ <input type="text" name="FreightCost" id="FreightCost" style="width:80px;height:20px;" value=0></span></br></hr>' +
+    '头程(/kg): <span style="text-align:right;">$ <input type="text" name="FreightCost" id="FreightCost" style="width:80px;height:20px;" value=0></span></br>' +
+    'VAT税率: <span style="text-align:right;">$ <input type="text" name="vatrate" id="vatrate" style="width:80px;height:20px;" value=0></span> %</br></hr>' +
     '<hr>FBA Fee: $ <span id="fbaFee" style="text-align:right;">0</span></br> '+
     'storageFee: $ <span id="storageFee" style="text-align:right;">0</span></br> </hr>'+
     '<hr>净利润: $ <span id="net" style="text-align:right;">0</span></br> '+
@@ -60,17 +61,25 @@ function get_rate() {
             let asin = get_asin(url);
             $('#itemid').text(asin);
             let marketplaceId = 'ATVPDKIKX0DER';
+            var vatrate = 0;
+            var EstFreightCost = 9;
             if (url.indexOf("amazon.co.jp") != -1) {
                 marketplaceId = 'A1VC38T7YXB528';
+                EstFreightCost = 800;
             }
             else if (url.indexOf("amazon.co.uk") != -1) {
                 marketplaceId = 'A1F83G8C2ARO7P';
+                EstFreightCost = 7;
+                vatrate = 20;
             }
             else if (url.indexOf("amazon.com.au") != -1) {
                 marketplaceId = 'A39IBJ37TRP1C6';
+                EstFreightCost = 15;
             }
             else if (url.indexOf("amazon.de") != -1) {
                 marketplaceId = 'A1PA6795UKMFR9';
+                EstFreightCost = 8;
+                vatrate = 19;
             }
             let api_url = "https://das-server.tool4seller.cn/ap/fba/calculate?marketplaceId=" + marketplaceId + "&asin=" + asin;
             GM_xmlhttpRequest({
@@ -88,6 +97,8 @@ function get_rate() {
                             let item_info = result.content;
                             let amount = item_info.amount;
                             $('#myprice').attr("value",amount);
+                            $('#vatrate').attr("value",vatrate);
+                            let vatFee = amount * vatrate / 100;
                             let fbaFee = item_info.fbaFee;
                             $('#fbaFee').text(fbaFee);
                             let storageFee = item_info.storageFee;
@@ -124,7 +135,7 @@ function get_rate() {
                             weight = weight.toFixed(2);
                             $('#weight').attr("value",weight);
                             let volumeWeight = height * length * width / 5000;
-                            let EstFreightCost = 9;
+                            // let EstFreightCost = 9;
                             $('#FreightCost').attr("value",EstFreightCost);
                             let freightFee = 0;
                             if (volumeWeight > weight) {
@@ -133,7 +144,7 @@ function get_rate() {
                                 freightFee = weight * EstFreightCost;
                             };
                             freightFee = freightFee.toFixed(2);
-                            let profit = amount - fbaFee - storageFee - listFee - referralFee - UnitManufacturingFee - freightFee;
+                            let profit = amount - fbaFee - storageFee - listFee - referralFee - UnitManufacturingFee - freightFee - vatFee;
                             profit = profit.toFixed(2);
                             $('#net').text(profit);
                             let margin_num = profit / amount * 100;
@@ -153,6 +164,8 @@ function get_rate() {
 
 function get_rate_by_click() {
     let amount = $('#myprice').val();
+    let vatrate = $('#vatrate').val();
+    let vatFee = amount * vatrate / 100;
     let fbaFee = $('#fbaFee').text();
     let storageFee = $('#storageFee').text();
     let listFee = 0;
@@ -171,7 +184,7 @@ function get_rate_by_click() {
         freightFee = weight * EstFreightCost;
     };
     freightFee = freightFee.toFixed(2);
-    let profit = amount - fbaFee - storageFee - listFee - referralFee - UnitManufacturingFee - freightFee;
+    let profit = amount - fbaFee - storageFee - listFee - referralFee - UnitManufacturingFee - freightFee - vatFee;
     profit = profit.toFixed(2);
     $('#net').text(profit);
     let margin_num = profit / amount * 100;
