@@ -2,7 +2,7 @@
 // @name        FBA利润计算器
 // @description zh-cn
 // @namespace   http://tampermonkey.net/
-// @version     1.0.0
+// @version     1.0.2
 // @match       https://www.amazon.co.jp/*dp/*
 // @match       https://www.amazon.com/*dp/*
 // @match       https://www.amazon.com.au/*dp/*
@@ -15,21 +15,24 @@
 // @grant       GM_notification
 // ==/UserScript==
 
-var sdiv = $('<div>ID: <span id="itemid">0</span> | ' +
-    '<button id="jbtn">计算</button></br>' +
-    '<hr>Dimensions : <span id="dimensions" style="text-align:right;"><input type="text" name="height" id="height" value=0> x <input type="text" name="width" id="width" value=0> x <input type="text" name="length" id="length" value=0></span> in. </br>' +
-    'Weight : <span style="text-align:right;"><input type="text" name="weight" id="weight" value=0>lbs</span></br>' +
-    'Price : <span style="text-align:right;">$ <input type="text" name="price" id="price" value=0></span></br> ' +
-    'Est. Freight Cost per kilogram: <span style="text-align:right;">$ <input type="text" name="FreightCost" id="FreightCost" value=0></span></br>' +
+var sdiv = $('<div id="fbaprocal">ID: <span id="itemid">0</span>  ' +
+    // '| <button id="jbtn">计算</button></br>' +
+    '<hr>长度 : <span style="text-align:right;"><input type="text" name="length" id="length" style="width:80px;height:20px;" value=0></span> 厘米 </br>' +
+    '宽度 : <span style="text-align:right;"><input type="text" name="width" id="width" style="width:80px;height:20px;" value=0></span> 厘米 </br>' +
+    '高度 : <span style="text-align:right;"><input type="text" name="height" id="height" style="width:80px;height:20px;" value=0></span> 厘米 </br>' +
+    '重量 : <span style="text-align:right;"><input type="text" name="weight" id="weight" style="width:80px;height:20px;" value=0>千克</span></br>' +
+    '售价 : <span style="text-align:right;">$ <input type="text" name="price" id="myprice" style="width:80px;height:20px;" value=0></span></br> ' +
+    '成本价 : <span style="text-align:right;">$ <input type="text" name="costprice" id="costprice" style="width:80px;height:20px;" value=0></span></br> ' +
+    '头程(/kg): <span style="text-align:right;">$ <input type="text" name="FreightCost" id="FreightCost" style="width:80px;height:20px;" value=0></span></br></hr>' +
     '<hr>FBA Fee: $ <span id="fbaFee" style="text-align:right;">0</span></br> '+
-    'storageFee: $ <span id="storageFee" style="text-align:right;">0</span></br> '+
-    '<hr>Net: $ <span id="net" style="text-align:right;">0</span></br> '+
-    'Margin: <span id="margin" style="text-align:right;">0</span> %</br> '+
-    'ROI: <span id="roi" style="text-align:right;">0</span> %</br> '+
+    'storageFee: $ <span id="storageFee" style="text-align:right;">0</span></br> </hr>'+
+    '<hr>净利润: $ <span id="net" style="text-align:right;">0</span></br> '+
+    '利润率: <span id="margin" style="text-align:right;">0</span> %</br> '+
+    'ROI: <span id="roi" style="text-align:right;">0</span> %</br> </hr>'+
     '</div>');
 sdiv.css({
     'position': 'fixed',
-    'top': '150px',
+    'top': '80px',
     'right': '10px',
     'width': '200px',
     'border': '2px solid #000',
@@ -55,6 +58,7 @@ function get_rate() {
 		try {
             let url = $(location).attr('href');
             let asin = get_asin(url);
+            $('#itemid').text(asin);
             let marketplaceId = 'ATVPDKIKX0DER';
             if (url.indexOf("amazon.co.jp") != -1) {
                 marketplaceId = 'A1VC38T7YXB528';
@@ -83,7 +87,7 @@ function get_rate() {
                         if (result.status === 1) {
                             let item_info = result.content;
                             let amount = item_info.amount;
-                            $('#price').text(amount);
+                            $('#myprice').attr("value",amount);
                             let fbaFee = item_info.fbaFee;
                             $('#fbaFee').text(fbaFee);
                             let storageFee = item_info.storageFee;
@@ -91,33 +95,52 @@ function get_rate() {
                             let listFee = 0;
                             let referralFee = amount * 0.15;
                             let UnitManufacturingFee = amount * 0.2;
+                            UnitManufacturingFee = UnitManufacturingFee.toFixed(2);
+                            $('#costprice').attr("value",UnitManufacturingFee);
+                            let heightUnits = item_info.heightUnits;
+                            let heightRate = 1;
+                            if (heightUnits.indexOf('inches') != -1) {
+                                heightRate = 2.54;
+                            }
                             let height = item_info.height;
-                            height = height * 2.54;
-                            $('#height').text(height);
+                            height = height * heightRate;
+                            height = height.toFixed(2);
+                            $('#height').attr("value",height);
                             let width = item_info.width;
-                            width = width * 2.54;
-                            $('#width').text(width);
+                            width = width * heightRate;
+                            width = width.toFixed(2);
+                            $('#width').attr("value",width);
                             let length = item_info.length;
-                            length = length * 2.54;
-                            $('#length').text(length);
+                            length = length * heightRate;
+                            length = length.toFixed(2);
+                            $('#length').attr("value",length);
                             let weight = item_info.weight;
-                            weight = weight * 0.4536;
-                            $('#weight').text(weight);
+                            let weightUnits = item_info.weightUnits;
+                            let weightRate = 1;
+                            if (weightUnits.indexOf('pounds') != -1) {
+                                weightRate = 0.4536;
+                            }
+                            weight = weight * weightRate;
+                            weight = weight.toFixed(2);
+                            $('#weight').attr("value",weight);
                             let volumeWeight = height * length * width / 5000;
                             let EstFreightCost = 9;
-                            $('#FreightCost').text(EstFreightCost);
+                            $('#FreightCost').attr("value",EstFreightCost);
                             let freightFee = 0;
                             if (volumeWeight > weight) {
                                 freightFee = volumeWeight * EstFreightCost;
                             } else {
                                 freightFee = weight * EstFreightCost;
                             };
+                            freightFee = freightFee.toFixed(2);
                             let profit = amount - fbaFee - storageFee - listFee - referralFee - UnitManufacturingFee - freightFee;
+                            profit = profit.toFixed(2);
                             $('#net').text(profit);
                             let margin_num = profit / amount * 100;
                             let margin = margin_num.toFixed(2);
                             $('#margin').text(margin);
-                            let roi = profit / (UnitManufacturingFee + freightFee)
+                            let costFee = parseFloat(UnitManufacturingFee) + parseFloat(freightFee);
+                            let roi = profit / costFee * 100;
                             roi = roi.toFixed(2);
                             $('#roi').text(roi);
                         }
@@ -129,34 +152,36 @@ function get_rate() {
 }
 
 function get_rate_by_click() {
-    let amount = $('#price').text();
+    let amount = $('#myprice').val();
     let fbaFee = $('#fbaFee').text();
     let storageFee = $('#storageFee').text();
     let listFee = 0;
     let referralFee = amount * 0.15;
-    let UnitManufacturingFee = amount * 0.2;
-    let height = $('#height').text();
-    let width = $('#width').text();
-    let length = $('#length').text();
-    let weight = $('#weight').text();
+    let UnitManufacturingFee = $('#costprice').val();
+    let height = $('#height').val();
+    let width = $('#width').val();
+    let length = $('#length').val();
+    let weight = $('#weight').val();
     let volumeWeight = height * length * width / 5000;
-    let EstFreightCost = $('#FreightCost').text();
+    let EstFreightCost = $('#FreightCost').val();
     let freightFee = 0;
     if (volumeWeight > weight) {
         freightFee = volumeWeight * EstFreightCost;
     } else {
         freightFee = weight * EstFreightCost;
     };
+    freightFee = freightFee.toFixed(2);
     let profit = amount - fbaFee - storageFee - listFee - referralFee - UnitManufacturingFee - freightFee;
+    profit = profit.toFixed(2);
     $('#net').text(profit);
     let margin_num = profit / amount * 100;
     let margin = margin_num.toFixed(2);
     $('#margin').text(margin);
-    let roi = profit / (UnitManufacturingFee + freightFee)
+    let costFee = parseFloat(UnitManufacturingFee) + parseFloat(freightFee);
+    let roi = profit / costFee * 100;
     roi = roi.toFixed(2);
     $('#roi').text(roi);
 }
-
 
 function main() {
     get_rate();
@@ -166,9 +191,9 @@ window.setTimeout(function () {
     main();
 }, 1500);
 
-$('#jbtn').click(function () {
-    get_rate_by_click();
-})
+// $('#jbtn').click(function () {
+//     get_rate_by_click();
+// })
 
 let dragging = false;
 let iX, iY;
@@ -192,4 +217,15 @@ document.onmousemove = function (e) {
 $(document).mouseup(function (e) {
     dragging = false;
     e.cancelBubble = true;
+});
+
+$("#myprice").change( function() {
+    let amount = $('#myprice').val();
+    let UnitManufacturingFee = amount * 0.2;
+    UnitManufacturingFee = UnitManufacturingFee.toFixed(2);
+    $('#costprice').attr("value",UnitManufacturingFee);
+  });
+
+$("#length, #width, #height, #weight, #myprice, #costprice, #FreightCost").change( function() {
+    get_rate_by_click();
 });
