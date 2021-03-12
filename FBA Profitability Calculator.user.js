@@ -2,7 +2,7 @@
 // @name        FBA利润计算器
 // @description zh-cn
 // @namespace   http://tampermonkey.net/
-// @version     1.0.4
+// @version     1.0.5
 // @match       https://www.amazon.co.jp/*dp/*
 // @match       https://www.amazon.com/*dp/*
 // @match       https://www.amazon.com.au/*dp/*
@@ -24,7 +24,7 @@ var sdiv = $('<div id="fbaprocal">ID: <span id="itemid">0</span>  ' +
     '售价 : <span style="text-align:right;">$ <input type="text" name="price" id="myprice" style="width:80px;height:20px;" value=0></span></br> ' +
     '成本价 : <span style="text-align:right;">$ <input type="text" name="costprice" id="costprice" style="width:80px;height:20px;" value=0></span></br> ' +
     '头程(/kg): <span style="text-align:right;">$ <input type="text" name="FreightCost" id="FreightCost" style="width:80px;height:20px;" value=0></span></br>' +
-    'VAT税率: <span style="text-align:right;">$ <input type="text" name="vatrate" id="vatrate" style="width:80px;height:20px;" value=0></span> %</br></hr>' +
+    'VAT税率: <span style="text-align:right;"> <input type="text" name="vatrate" id="vatrate" style="width:80px;height:20px;" value=0></span> %</br></hr>' +
     '<hr>FBA Fee: $ <span id="fbaFee" style="text-align:right;">0</span></br> '+
     'storageFee: $ <span id="storageFee" style="text-align:right;">0</span></br> </hr>'+
     '<hr>净利润: $ <span id="net" style="text-align:right;">0</span></br> '+
