@@ -2,12 +2,17 @@
 // @name        FBA利润计算器
 // @description zh-cn
 // @namespace   http://tampermonkey.net/
-// @version     1.0.5
+// @version     1.0.6
 // @match       https://www.amazon.co.jp/*dp/*
 // @match       https://www.amazon.com/*dp/*
 // @match       https://www.amazon.com.au/*dp/*
 // @match       https://www.amazon.co.uk/*dp/*
 // @match       https://www.amazon.de/*dp/*
+// @match       https://www.amazon.co.jp/*gp/*
+// @match       https://www.amazon.com/*gp/*
+// @match       https://www.amazon.com.au/*gp/*
+// @match       https://www.amazon.co.uk/*gp/*
+// @match       https://www.amazon.de/*gp/*
 // @require     https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
 // @grant       GM_log
 // @grant       GM_xmlhttpRequest
@@ -47,7 +52,7 @@ $('body').append(sdiv);
 // sdiv.append(sbtn);
 
 function get_asin(url) {
-    let re = /\/dp\/([A-Za-z0-9]+)/g;
+    let re = /\/[dg]p\/([A-Za-z0-9]+)/g;
     let matches = re.exec(url);
     if (matches && matches.length > 1) {
         return matches[1];
