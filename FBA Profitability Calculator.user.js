@@ -2,7 +2,7 @@
 // @name        FBA利润计算器
 // @description zh-cn
 // @namespace   http://tampermonkey.net/
-// @version     1.0.6
+// @version     1.0.8
 // @match       https://www.amazon.co.jp/*dp/*
 // @match       https://www.amazon.com/*dp/*
 // @match       https://www.amazon.com.au/*dp/*
@@ -52,7 +52,7 @@ $('body').append(sdiv);
 // sdiv.append(sbtn);
 
 function get_asin(url) {
-    let re = /\/[dg]p\/([A-Za-z0-9]+)/g;
+    let re = /\/[dg]p\/[product/]*([A-Za-z0-9]+)/g;
     let matches = re.exec(url);
     if (matches && matches.length > 1) {
         return matches[1];
@@ -247,3 +247,7 @@ $("#myprice").change( function() {
 $("#length, #width, #height, #weight, #myprice, #costprice, #FreightCost, #vatrate").change( function() {
     get_rate_by_click();
 });
+
+$("#variation_size_name").click(function () {window.setTimeout(function () {
+    get_rate();
+}, 5000)});
