@@ -2,7 +2,7 @@
 // @name        FBA利润计算器
 // @description zh-cn
 // @namespace   http://tampermonkey.net/
-// @version     1.1.0
+// @version     1.1.1
 // @match       https://www.amazon.co.jp/*dp/*
 // @match       https://www.amazon.com/*dp/*
 // @match       https://www.amazon.com.au/*dp/*
@@ -209,7 +209,7 @@ function main() {
 
 window.setTimeout(function () {
     main();
-}, 1500);
+}, 5000);
 
 // $('#jbtn').click(function () {
 //     get_rate_by_click();
@@ -246,9 +246,13 @@ $("#myprice").change( function() {
     $('#costprice').attr("value",UnitManufacturingFee);
   });
 
-$("#length, #width, #height, #weight, #myprice, #costprice, #FreightCost, #vatrate").change( function() {
+// $("#length, #width, #height, #weight, #myprice, #costprice, #FreightCost, #vatrate").change( function() {
+//     get_rate_by_click();
+// });
+
+$("#length, #width, #height, #weight, #myprice, #costprice, #FreightCost, #vatrate").change(function () {window.setTimeout(function () {
     get_rate_by_click();
-});
+}, 5000)});
 
 $("#variation_size_name").click(function () {window.setTimeout(function () {
     get_rate();
