@@ -2,7 +2,7 @@
 // @name        FBA利润计算器
 // @description zh-cn
 // @namespace   http://tampermonkey.net/
-// @version     1.2.0
+// @version     1.3.0
 // @match       https://www.amazon.co.jp/*dp/*
 // @match       https://www.amazon.com/*dp/*
 // @match       https://www.amazon.com.au/*dp/*
@@ -191,9 +191,10 @@ function get_rate() {
 
 function get_rate_by_click() {
     let amount = $('#myprice').val();
-    let vatrate = $('#vatrate').val();
-    // let vatFee = amount * vatrate / 100;
-    let vatFee = amount / (100 + vatrate) * vatrate;
+    amount = Number(amount);
+    let my_vatrate = $('#vatrate').val();
+    my_vatrate = Number(my_vatrate);
+    let vatFee = amount / (100 + my_vatrate) * my_vatrate;
     let fbaFee = $('#fbaFee').text();
     let storageFee = $('#storageFee').text();
     let listFee = 0;
