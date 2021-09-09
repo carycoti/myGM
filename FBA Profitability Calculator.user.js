@@ -2,17 +2,23 @@
 // @name        FBA利润计算器
 // @description zh-cn
 // @namespace   http://tampermonkey.net/
-// @version     1.1.1
+// @version     1.2.0
 // @match       https://www.amazon.co.jp/*dp/*
 // @match       https://www.amazon.com/*dp/*
 // @match       https://www.amazon.com.au/*dp/*
 // @match       https://www.amazon.co.uk/*dp/*
 // @match       https://www.amazon.de/*dp/*
+// @match       https://www.amazon.it/*dp/*
+// @match       https://www.amazon.es/*dp/*
+// @match       https://www.amazon.fr/*dp/*
 // @match       https://www.amazon.co.jp/*gp/*
 // @match       https://www.amazon.com/*gp/*
 // @match       https://www.amazon.com.au/*gp/*
 // @match       https://www.amazon.co.uk/*gp/*
 // @match       https://www.amazon.de/*gp/*
+// @match       https://www.amazon.it/*gp/*
+// @match       https://www.amazon.es/*gp/*
+// @match       https://www.amazon.fr/*gp/*
 // @require     https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
 // @grant       GM_log
 // @grant       GM_xmlhttpRequest
@@ -85,6 +91,21 @@ function get_rate() {
                 marketplaceId = 'A1PA6795UKMFR9';
                 EstFreightCost = 8;
                 vatrate = 19;
+            }
+            else if (url.indexOf("amazon.it") != -1) {
+                marketplaceId = 'APJ6JRA9NG5V4';
+                EstFreightCost = 8;
+                vatrate = 22;
+            }
+            else if (url.indexOf("amazon.es") != -1) {
+                marketplaceId = 'A1RKKUPIHCS9HS';
+                EstFreightCost = 8;
+                vatrate = 21;
+            }
+            else if (url.indexOf("amazon.fr") != -1) {
+                marketplaceId = 'A13V1IB3VIYZZH';
+                EstFreightCost = 8;
+                vatrate = 20;
             }
             let api_url = "https://das-server.tool4seller.cn/ap/fba/calculate?marketplaceId=" + marketplaceId + "&asin=" + asin;
             GM_xmlhttpRequest({
