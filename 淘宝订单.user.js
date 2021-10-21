@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         淘宝订单
 // @namespace    http://tampermonkey.net/
-// @version      1.0.0
+// @version      1.0.1
 // @description  生成淘宝订单，方便写单
 // @author       Kung
 // @match        https://trade.taobao.com/trade/itemlist/list_sold_items*
@@ -19,7 +19,7 @@ function main() {
                 let this_product = $(this).find("tr.suborder-mod__item___dY2q5");
                 let total = "";
                 for (let k = 0; k < this_product.length; k++) {
-                    let this_td = $(this_product[k]).find("td.sol-mod__no-br___dK-US");
+                    let this_td = $(this_product[k]).find("td.sol-mod__no-br___1FsWT");
                     let qty_td = this_td.get(2);
                     let qty = $(qty_td).text();
                     let sku_span = this_td.get(0);
