@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         H10 PLUS
 // @namespace    http://tampermonkey.net/
-// @version      2.0.0
+// @version      2.0.1
 // @description  H10 PLUS
 // @author       Kung
 // @match        https://members.helium10.com/black-box*
@@ -101,6 +101,20 @@ function get_rate() {
 			EstFreightCost = 8;
 			vatrate = 20;
 		}
+		else if (url.indexOf("amazon.nl") != -1) {
+			marketplaceId = 'A1805IZSGTT6HS';
+			EstFreightCost = 8;
+			vatrate = 20;
+		}
+		else if (url.indexOf("amazon.ca") != -1) {
+			marketplaceId = 'A2EUQ1WTGCTBG2';
+		}
+		else if (url.indexOf("amazon.com.mx") != -1) {
+			marketplaceId = 'A1AM78C64UM0Y8';
+		}
+		else if (url.indexOf("amazon.in") != -1) {
+			marketplaceId = 'A21TJRUUN4KGV';
+		}
 		$('#bb-table tbody tr').each(function (i) {
 			if (i % 2 == 0) {
 				try {
@@ -110,7 +124,7 @@ function get_rate() {
 					let monthlyRevenueTD = $(this).find(".monthlyRevenue-column")[0];
 					let asin = my_div.innerText;
 					let monthlyRevenue = monthlyRevenueTD.innerText;
-					monthlyRevenue = monthlyRevenue.replace(/[$,]/g, "");
+					monthlyRevenue = monthlyRevenue.replace(/[$,£€CDN$₹ ￥]/g, "");
 					let mediaBodyTd = $(this).find(".media-body")[0];
 					let mediaBodyH5 = $(mediaBodyTd).find("h5")[0];
 					let title = mediaBodyH5.innerText;
