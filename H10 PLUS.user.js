@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         H10 PLUS
 // @namespace    http://tampermonkey.net/
-// @version      1.4.2
+// @version      2.0.0
 // @description  H10 PLUS
 // @author       Kung
 // @match        https://members.helium10.com/black-box*
@@ -34,10 +34,13 @@ function dom(tag, attr, inner) {
 }
 
 function fanyi(text, eldom) {
-	let app_kid = "5fad1a6e76c3c";
-	let app_key = "bc5cad061aab405e1b1331cf77a025d8";
-	let bath_url = "https://api.yeekit.com/dotranslate.php?from=en&to=zh&app_kid=";
-	let api_url = bath_url + app_kid + "&app_key=" + app_key + "&text=" + text;
+	// yeekit API
+	// let app_kid = "5fad1a6e76c3c";
+	// let app_key = "bc5cad061aab405e1b1331cf77a025d8";
+	// let bath_url = "https://api.yeekit.com/dotranslate.php?from=en&to=zh&app_kid=";
+	// let api_url = bath_url + app_kid + "&app_key=" + app_key + "&text=" + text;
+
+	let api_url = "http://fanyi.youdao.com/translate?&doctype=json&type=AUTO&i=" + text
 	GM_xmlhttpRequest({
 		method: "GET",
 		url: api_url,
@@ -49,7 +52,7 @@ function fanyi(text, eldom) {
 		onload: function (response) {
 			if (response.status === 200) {
 				let result = JSON.parse(response.responseText);
-				result = result.translation[0].translated[0].text;
+				result = result.translateResult[0][0].tgt;
 				let fy_html = dom("p", {
 					"class": "set-product-title"
 				}, result);
@@ -61,6 +64,43 @@ function fanyi(text, eldom) {
 
 function get_rate() {
 	$(document).ready(function () {
+		let url = $(document).find(".selected-domain")[0].innerText;
+		let marketplaceId = 'ATVPDKIKX0DER';
+		var vatrate = 0;
+		var EstFreightCost = 9;
+		if (url.indexOf("amazon.co.jp") != -1) {
+			marketplaceId = 'A1VC38T7YXB528';
+			EstFreightCost = 800;
+		}
+		else if (url.indexOf("amazon.co.uk") != -1) {
+			marketplaceId = 'A1F83G8C2ARO7P';
+			EstFreightCost = 7;
+			vatrate = 20;
+		}
+		else if (url.indexOf("amazon.com.au") != -1) {
+			marketplaceId = 'A39IBJ37TRP1C6';
+			EstFreightCost = 15;
+		}
+		else if (url.indexOf("amazon.de") != -1) {
+			marketplaceId = 'A1PA6795UKMFR9';
+			EstFreightCost = 8;
+			vatrate = 19;
+		}
+		else if (url.indexOf("amazon.it") != -1) {
+			marketplaceId = 'APJ6JRA9NG5V4';
+			EstFreightCost = 8;
+			vatrate = 22;
+		}
+		else if (url.indexOf("amazon.es") != -1) {
+			marketplaceId = 'A1RKKUPIHCS9HS';
+			EstFreightCost = 8;
+			vatrate = 21;
+		}
+		else if (url.indexOf("amazon.fr") != -1) {
+			marketplaceId = 'A13V1IB3VIYZZH';
+			EstFreightCost = 8;
+			vatrate = 20;
+		}
 		$('#bb-table tbody tr').each(function (i) {
 			if (i % 2 == 0) {
 				try {
@@ -80,7 +120,7 @@ function get_rate() {
 						fanyi(title, mediaBodyH5);
 						// 默认为美国站: marketplaceId=ATVPDKIKX0DER 其他站点可以改成对应的marketplaceId, 参考以下链接:
 						// http://docs.developer.amazonservices.com/zh_CN/dev_guide/DG_Endpoints.html
-						let api_url = "https://das-server.tool4seller.cn/ap/fba/calculate?marketplaceId=ATVPDKIKX0DER&asin=" + asin;
+						let api_url = "https://das-server.tool4seller.cn/ap/fba/calculate?marketplaceId=" + marketplaceId + "&asin=" + asin;
 						GM_xmlhttpRequest({
 							method: "GET",
 							url: api_url,
@@ -95,28 +135,45 @@ function get_rate() {
 									if (result.status === 1) {
 										let item_info = result.content;
 										let amount = item_info.amount;
+										let vatFee = amount / (100 + vatrate) * vatrate;
 										let fbaFee = item_info.fbaFee;
 										let storageFee = item_info.storageFee;
 										let listFee = 0;
 										let referralFee = amount * 0.15;
 										let UnitManufacturingFee = amount * 0.2;
+										UnitManufacturingFee = UnitManufacturingFee.toFixed(2);
+										let heightUnits = item_info.heightUnits;
+										let heightRate = 1;
+										if (heightUnits.indexOf('inches') != -1) {
+											heightRate = 2.54;
+										}
 										let height = item_info.height;
-										height = height * 2.54;
+										height = height * heightRate;
+										height = height.toFixed(2);
 										let width = item_info.width;
-										width = width * 2.54;
+										width = width * heightRate;
+										width = width.toFixed(2);
 										let length = item_info.length;
-										length = length * 2.54;
+										length = length * heightRate;
+										length = length.toFixed(2);
 										let weight = item_info.weight;
-										weight = weight * 0.4536;
+										let weightUnits = item_info.weightUnits;
+										let weightRate = 1;
+										if (weightUnits.indexOf('pounds') != -1) {
+											weightRate = 0.4536;
+										}
+										weight = weight * weightRate;
+										weight = weight.toFixed(2);
 										let volumeWeight = height * length * width / 5000;
-										let EstFreightCost = 9;
 										let freightFee = 0;
 										if (volumeWeight > weight) {
 											freightFee = volumeWeight * EstFreightCost;
 										} else {
 											freightFee = weight * EstFreightCost;
 										};
-										let profit = amount - fbaFee - storageFee - listFee - referralFee - UnitManufacturingFee - freightFee;
+										freightFee = freightFee.toFixed(2);
+										let profit = amount - fbaFee - storageFee - listFee - referralFee - UnitManufacturingFee - freightFee - vatFee;
+										profit = profit.toFixed(2);
 										let margin_num = profit / amount * 100;
 										let margin = margin_num.toFixed(2);
 										margin = margin + "%";
@@ -147,7 +204,7 @@ function get_rate() {
 function main() {
 	$(document).ready(function () {
 		get_rate();
-		$("body").on("click", "nav,.action-load-selected-project,.page-item,#w0,.pagination,.page-link,.action-search,#sort", function () {
+		$("body").on("click", "nav,.action-load-selected-project,.page-item,#w0,.pagination,.page-link,.action-search,#sort,.action-restore-last-search", function () {
 			window.setTimeout(function () {
 				get_rate();
 			}, 8000);
