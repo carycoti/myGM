@@ -52,7 +52,7 @@ function get_rate() {
                 let re = /allstar(\d\d)/g;
                 let matches = result.match(re);
                 if (matches && matches.length > 1) {
-                    let num = matches.length - 1;
+                    let num = matches.length;
                     let total_rating = 0;
                     let good_rating = 0;
                     for (let i = 1; i < matches.length; i++){
