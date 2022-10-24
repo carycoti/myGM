@@ -3,8 +3,8 @@
 // @description zh-cn
 // @namespace   http://tampermonkey.net/
 // @version     1.0.0
-// @match       https://movie.douban.com/subject/*
-// @match       https://book.douban.com/subject/*
+// @match       https://movie.douban.com/subject/*/
+// @match       https://book.douban.com/subject/*/
 // @require     https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
 // @grant       GM_log
 // @grant       GM_xmlhttpRequest
@@ -36,8 +36,8 @@ function dom(tag, attr, inner) {
 
 function get_rate() {
     let url = $(location).attr('href');
-    let uid = get_uid(url)
-    let api_url = 'https://movie.douban.com/subject/' + uid + "/comments?limit=200&status=P&sort=new_score";
+    // let uid = get_uid(url)
+    let api_url = url + "/comments?limit=200&status=P&sort=new_score";
     GM_xmlhttpRequest({
         method: "GET",
         url: api_url,
