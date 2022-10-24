@@ -71,3 +71,11 @@ function get_rate() {
                     $("div#interest_sectl").append(hhtml)
                 }
 }}})}
+
+function main() {
+    get_rate();
+    }
+
+window.setTimeout(function () {
+    main();
+}, 5000);
