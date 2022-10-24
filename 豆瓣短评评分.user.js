@@ -69,7 +69,7 @@ function get_rate() {
                     good_rating = good_rating / num;
                     good_rating = good_rating * 100;
                     good_rating = good_rating.toFixed(1);
-                    let hhtml = '<div class="rating_wrap clearbox" rel="v:rating"><div class="clearfix"><div class="rating_logo ll">短评评分</div></div><div class="rating_self clearfix" typeof="v:Rating"><strong class="ll rating_num" property="v:average">' + total_rating + '</strong><span property="v:best" content="10.0"></span><div class="rating_right "><div class="ll bigstar bigstar45"></div><div class="rating_sum"><a href="comments" class="rating_people"><span property="v:votes">好评率:' + good_rating + '%, ' + num + '</span>人评价</a></div></div></div></div>';
+                    let hhtml = '<div class="rating_wrap clearbox" rel="v:rating"><div class="clearfix"><div class="rating_logo ll">短评评分</div></div><div class="rating_self clearfix" typeof="v:Rating"><strong class="ll rating_num" property="v:average">' + total_rating + '</strong><span property="v:best" content="10.0"></span><div class="rating_right "><div class="ll bigstar bigstar45"></div><div class="rating_sum"><a href="comments" class="rating_people"><span property="v:votes">好评率:' + good_rating + '%, ' + num + '</span>人</a></div></div></div></div>';
                     $("div#interest_sectl").append(hhtml);
                 }
 }}})}
