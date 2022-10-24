@@ -13,11 +13,11 @@
 // ==/UserScript==
 
 
-function get_uid(url) {
-    let re = /subject\/([0-9]+)/g;
+function get_url(url) {
+    let re = /https:\/\/(movie|book)\.douban\.com\/subject\/(\d+)/g;
     let matches = re.exec(url);
     if (matches && matches.length > 1) {
-        return matches[1];
+        return matches[0];
     }
 }
  
@@ -36,7 +36,7 @@ function dom(tag, attr, inner) {
 
 function get_rate() {
     let url = $(location).attr('href');
-    // let uid = get_uid(url)
+    url = get_url(url)
     let api_url = url + "/comments?limit=200&status=P&sort=new_score";
     GM_xmlhttpRequest({
         method: "GET",
