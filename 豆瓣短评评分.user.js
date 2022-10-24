@@ -3,8 +3,8 @@
 // @description zh-cn
 // @namespace   http://tampermonkey.net/
 // @version     1.0.0
-// @match       https://movie.douban.com/subject/*/
-// @match       https://book.douban.com/subject/*/
+// @match       https://movie.douban.com/subject/*
+// @match       https://book.douban.com/subject/*
 // @require     https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
 // @grant       GM_log
 // @grant       GM_xmlhttpRequest
