@@ -2,7 +2,7 @@
 // @name        知无不言
 // @description zh-cn
 // @namespace   http://tampermonkey.net/
-// @version     1.0.0
+// @version     1.0.1
 // @match       https://www.wearesellers.com/*
 // @require     https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js
 // @grant       GM_log
@@ -12,7 +12,7 @@
 // ==/UserScript==
 
 function main() {
-    $("#layui-layer1").remove();
+    $(".layui-layer-btn0").click();
     }
 
 window.setTimeout(function () {
