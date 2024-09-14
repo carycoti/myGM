@@ -10,13 +10,13 @@
 // @grant       GM_xmlhttpRequest
 // @grant       GM_setClipboard
 // @grant       GM_notification
-// @grant       GM_getValue
-// @grant       GM_setValue
+// @grant       GM.getValue
+// @grant       GM.setValue
 // ==/UserScript==
 
-GM_setValue("total_rating", 0);
-GM_setValue("good_rating", 0);
-GM_setValue("num", 0);
+await GM.setValue("total_rating", 0);
+await GM.setValue("good_rating", 0);
+await GM.setValue("num", 0);
 
 function get_url(url) {
     let re = /https:\/\/(movie|book)\.douban\.com\/subject\/(\d+)/g;
@@ -43,7 +43,6 @@ function get_rate(kk) {
     let url = $(location).attr('href');
     url = get_url(url)
     let api_url = url + "/comments?start=" + kk + "&limit=20&status=P&sort=new_score";
-    console.log(api_url);
     GM_xmlhttpRequest({
         method: "GET",
         url: api_url,
@@ -55,13 +54,13 @@ function get_rate(kk) {
         onload: function (response) {
             console.log(response.status);
             if (response.status === 200) {
-                console.log("begian");
                 let result = response.responseText;
                 let re = /allstar(\d\d)/g;
                 let matches = result.match(re);
-                let num = GM_getValue("num");
-                let total_rating = GM_getValue("total_rating");
-                let good_rating = GM_getValue("good_rating");
+                let num = await GM.getValue("num");
+                let total_rating = await GM.getValue("total_rating");
+                GM_log(total_rating);
+                let good_rating = await GM.getValue("good_rating");
                 if (matches && matches.length > 1) {
                     num += matches.length;
                     for (let i = 1; i < matches.length; i++){
@@ -73,9 +72,10 @@ function get_rate(kk) {
                             good_rating += 1;
                         }
                     }
-                    GM_setValue("total_rating", total_rating);
-                    GM_setValue("good_rating", good_rating);
-                    GM_setValue("num", num);
+                    await GM.setValue("total_rating", total_rating);
+                    
+                    await GM.setValue("good_rating", good_rating);
+                    await GM.setValue("num", num);
                 }}}
     })
 }
@@ -85,10 +85,10 @@ function main() {
     let kk = i * 20;
     get_rate(kk);
     }
-    let num = GM_getValue("num");
-    let total_rating = GM_getValue("total_rating");
+    let num = await GM.getValue("num");
+    let total_rating = await GM.getValue("total_rating");
     console.log(total_rating);
-    let good_rating = GM_getValue("good_rating");
+    let good_rating = await GM.getValue("good_rating");
     total_rating = total_rating / num * 2 / 10;
     total_rating = total_rating.toFixed(1);
     good_rating = good_rating / num;
